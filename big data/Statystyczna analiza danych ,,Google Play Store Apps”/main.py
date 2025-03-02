@@ -22,9 +22,9 @@ spark = SparkSession.builder \
 
 
 db_config = {
-    "url": "jdbc:postgresql://195.150.230.208:5432/2023_kolak_grzegorz",
-    "user": "2023_kolak_grzegorz",
-    "password": "36376",
+    "url": "jdbc:postgresql://195.150.230.208:5432/",
+    "user": "",
+    "password": "",
     "dbtable": "google_play.google_play_apps",
     "driver": "org.postgresql.Driver"
 }

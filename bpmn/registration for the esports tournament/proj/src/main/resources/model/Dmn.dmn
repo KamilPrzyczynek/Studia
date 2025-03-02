@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_Ranks" name="RankDecisions" namespace="http://camunda.org/schema/modeler/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="928e44d" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
+  <decision id="decision-ranks" name="User Rank Decision">
+    <decisionTable id="DecisionTable_Ranks" hitPolicy="FIRST">
+      <input id="Input_Score">
+        <inputExpression id="InputExpression_Score" typeRef="number">
+          <text>number(lolRang)</text>
+        </inputExpression>
+      </input>
+      <output id="Output_Rank" name="Rank" typeRef="string" />
+      <rule id="rule1">
+        <inputEntry id="inputEntry1">
+          <text>&lt; 100</text>
+        </inputEntry>
+        <outputEntry id="outputEntry1">
+          <text>"Poziom żelazny (Iron)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule2">
+        <inputEntry id="inputEntry2">
+          <text>[100..200)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry2">
+          <text>"Poziom brązowy (Bronze)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule3">
+        <inputEntry id="inputEntry3">
+          <text>[200..300)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry3">
+          <text>"Poziom srebrny (Silver)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule4">
+        <inputEntry id="inputEntry4">
+          <text>[300..400)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry4">
+          <text>"Poziom złoty (Gold)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule5">
+        <inputEntry id="inputEntry5">
+          <text>[400..500)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry5">
+          <text>"Poziom platynowy (Platinum)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule6">
+        <inputEntry id="inputEntry6">
+          <text>[500..600)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry6">
+          <text>"Poziom emeraldowy (Emerald)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule7">
+        <inputEntry id="inputEntry7">
+          <text>[600..700)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry7">
+          <text>"Poziom diamentowy (Diamond)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule8">
+        <inputEntry id="inputEntry8">
+          <text>[700..800)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry8">
+          <text>"Poziom mistrza (Master)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule9">
+        <inputEntry id="inputEntry9">
+          <text>[800..900)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry9">
+          <text>"Poziom arcymistrza (Grandmaster)"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule10">
+        <inputEntry id="inputEntry10">
+          <text>&gt;= 900</text>
+        </inputEntry>
+        <outputEntry id="outputEntry10">
+          <text>"Poziom pretendenta (Challenger)"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="decision-ranks">
+        <dc:Bounds height="400" width="500" x="150" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
