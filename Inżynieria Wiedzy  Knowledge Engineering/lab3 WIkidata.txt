@@ -1,0 +1,102 @@
+#SELECT ?element WHERE {
+#  ?element wdt:P31 wd:Q5 .
+#} LIMIT 10
+#SELECT ?person ?personLabel WHERE {
+#  ?person wdt:P19 wd:Q106281 .
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl" }
+#} LIMIT 10
+#Urodzeni w tarnowie 
+#SELECT ?person ?personLabel WHERE {
+#  ?person wdt:P19 wd:Q106281 .
+#} LIMIT 10
+#filmy i rezyserzy 
+#SELECT ?film ?filmLabel ?director ?directorLabel WHERE {
+#  ?film wdt:P31 wd:Q11424;
+#        wdt:P57 ?director .
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
+#} LIMIT 10
+#SELECT ?country ?countryLabel ?population WHERE {
+#  ?country wdt:P31 wd:Q6256;
+#           wdt:P1082 ?population .
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
+#} ORDER BY DESC(?population) LIMIT 10
+#1. Znajdź 5 krajów które mają dostęp do morza.
+#SELECT ?country ?countryLabel WHERE {
+#  ?country wdt:P31 wd:Q6256; 
+#           wdt:P206 ?sea. 
+#  
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl". }
+#}
+#LIMIT 5
+# 2 Wyszukaj wszystkie filmy wyreżyserowane przez Christophera Nolana
+#SELECT ?film ?filmLabel WHERE {
+#  ?film wdt:P31 wd:Q11424;
+#        wdt:P57 wd:Q25191.     
+#  
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl". }
+#}
+#ORDER BY ?filmLabel
+# 3 10 muzeów w Europie wraz z lokalizacjami
+#SELECT ?museum ?museumLabel ?locationLabel WHERE {
+#  ?museum wdt:P31/wdt:P279* wd:Q33506;  # Obiekt typu "muzeum" lub jego podklasy
+#          wdt:P17 ?country;             # Kraj lokalizacji
+#          wdt:P276 ?location.           # Lokalizacja (miasto lub region)
+#
+#  ?country wdt:P30 wd:Q46.              # Kraj należy do kontynentu Europa (Q46)
+#
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl". }
+#}
+#LIMIT 10
+#  4 10 najwyższych budynków w Azji wraz z ich wysokością
+#SELECT ?building ?buildingLabel ?height ?countryLabel WHERE {
+#  ?building wdt:P31/wdt:P279* wd:Q41176;
+#            wdt:P2048 ?height;
+#            wdt:P17 ?country.
+#
+#  ?country wdt:P30 wd:Q48.
+#
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl". }
+#}
+#ORDER BY DESC(?height)
+#LIMIT 10
+# 5  15 laureatów Nagrody Nobla w dziedzinie fizyki
+#SELECT ?scientist ?scientistLabel ?awardYear WHERE {
+#  ?scientist wdt:P166 wd:Q38104.
+#  OPTIONAL { ?scientist p:P166 ?awardStatement.
+#             ?awardStatement ps:P166 wd:Q38104;
+#                             pq:P585 ?awardYear. }
+#                             
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl". }
+#}
+#ORDER BY DESC(?awardYear)
+#LIMIT 15
+# 6 20 języków programowania wraz z datami powstania
+#SELECT ?language ?languageLabel ?inception WHERE {
+#  ?language wdt:P31 wd:Q9143;
+#            wdt:P571 ?inception.
+#  BIND(YEAR(?inception) AS ?year)
+#  OPTIONAL { ?language wdt:P571 ?inception. }
+#  
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl,en". }
+#  FILTER(BOUND(?inception))
+#}
+#ORDER BY ?inception
+#LIMIT 20
+# 7 10 najdłuższych rzek w Australii
+#SELECT ?river ?riverLabel ?length WHERE {
+#  ?river wdt:P31/wdt:P279* wd:Q4022;
+#          wdt:P17 wd:Q408;
+#          wdt:P2043 ?length.
+#  
+#  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl". }
+#}
+#ORDER BY DESC(?length)
+#LIMIT 10
+#  8 5 największych wysp świata (z poprawną właściwością powierzchni)
+SELECT ?island ?islandLabel ?area WHERE {
+  ?island wdt:P31 wd:Q23442;
+    wdt:P2046 ?area.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "pl". }
+}
+ORDER BY DESC (?area)
+LIMIT 5
