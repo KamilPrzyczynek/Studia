@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Reservation" targetNamespace="http://example.com/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.3.1">
+  <bpmn:process id="ReservationProcess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Timer" name="Start (Timer)">
+      <bpmn:timerEventDefinition />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_Timer" targetRef="ExclusiveGateway_NewReservation" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_NewReservation" name="Czy nowa rezerwacja?">
+      <bpmn:outgoing>Flow_0lmg9k4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_NewReservation" targetRef="ServiceTask_GetPatientData" />
+    <bpmn:serviceTask id="ServiceTask_GetPatientData" name="Pobierz dane pacjenta">
+      <bpmn:incoming>Flow_0lmg9k4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rvk2sx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ServiceTask_GetPatientData" targetRef="ServiceTask_MedicalHistoryAnalysis" />
+    <bpmn:serviceTask id="ServiceTask_MedicalHistoryAnalysis" name="Analiza historii medycznej">
+      <bpmn:incoming>Flow_0rvk2sx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0q3hxmj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ServiceTask_MedicalHistoryAnalysis" targetRef="BusinessRuleTask_MatchSpecialist" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_MatchSpecialist" name="Dopasowanie specjalisty">
+      <bpmn:incoming>Flow_0q3hxmj</bpmn:incoming>
+      <bpmn:incoming>Flow_0ntmk5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_02at5hq</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="BusinessRuleTask_MatchSpecialist" targetRef="EventBasedGateway_PatientChoice" />
+    <bpmn:eventBasedGateway id="EventBasedGateway_PatientChoice" name="Wybór pacjenta">
+      <bpmn:incoming>Flow_02at5hq</bpmn:incoming>
+      <bpmn:outgoing>Flow_014h0p4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16cddb3</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:sequenceFlow id="Flow_6a" sourceRef="EventBasedGateway_PatientChoice" targetRef="IntermediateCatchEvent_Timer" />
+    <bpmn:sequenceFlow id="Flow_6b" sourceRef="EventBasedGateway_PatientChoice" targetRef="IntermediateCatchEvent_Message" />
+    <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_Timer" name="Limit czasu">
+      <bpmn:incoming>Flow_014h0p4</bpmn:incoming>
+      <bpmn:timerEventDefinition />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_Message" name="Otrzymanie daty i godziny">
+      <bpmn:incoming>Flow_16cddb3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h7ycv1</bpmn:outgoing>
+      <bpmn:messageEventDefinition />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="IntermediateCatchEvent_Message" targetRef="ParallelGateway_CheckAndConfirm" />
+    <bpmn:parallelGateway id="ParallelGateway_CheckAndConfirm" name="Sprawdzenie dostępności i wysłanie potwierdzenia">
+      <bpmn:incoming>Flow_0h7ycv1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ly6ash</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1k6odn2</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_8a" sourceRef="ParallelGateway_CheckAndConfirm" targetRef="ServiceTask_CheckDoctorAvailability" />
+    <bpmn:sequenceFlow id="Flow_8b" sourceRef="ParallelGateway_CheckAndConfirm" targetRef="ServiceTask_SendConfirmation" />
+    <bpmn:serviceTask id="ServiceTask_CheckDoctorAvailability" name="Sprawdź dostępność lekarza">
+      <bpmn:incoming>Flow_0ly6ash</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lbjary</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0ntmk5z</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="BoundaryEvent_DoctorNotAvailable" attachedToRef="ServiceTask_CheckDoctorAvailability">
+      <bpmn:timerEventDefinition />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="ServiceTask_SendConfirmation" name="Wyślij potwierdzenie">
+      <bpmn:incoming>Flow_1k6odn2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ivsb6o</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="ServiceTask_SendConfirmation" targetRef="UserTask_PatientConfirmation" />
+    <bpmn:userTask id="UserTask_PatientConfirmation" name="Potwierdzenie przez pacjenta">
+      <bpmn:incoming>Flow_1lbjary</bpmn:incoming>
+      <bpmn:incoming>Flow_0ivsb6o</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hb3267</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_PatientConfirmation" targetRef="IntermediateThrowEvent_ReservationConfirmed" />
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_ReservationConfirmed" name="Rezerwacja potwierdzona">
+      <bpmn:incoming>Flow_1hb3267</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uwdk3s</bpmn:outgoing>
+      <bpmn:signalEventDefinition signalRef="ReservationConfirmedSignal" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="IntermediateThrowEvent_ReservationConfirmed" targetRef="SubProcess_QueueManagement" />
+    <bpmn:subProcess id="SubProcess_QueueManagement" name="Zarządzanie kolejką">
+      <bpmn:incoming>Flow_1uwdk3s</bpmn:incoming>
+      <bpmn:outgoing>Flow_1g4wura</bpmn:outgoing>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="SubProcess_QueueManagement" targetRef="EndEvent_ReservationCompleted" />
+    <bpmn:endEvent id="EndEvent_ReservationCompleted" name="Rezerwacja zakończona">
+      <bpmn:incoming>Flow_1g4wura</bpmn:incoming>
+      <bpmn:terminateEventDefinition />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0lmg9k4" sourceRef="ExclusiveGateway_NewReservation" targetRef="ServiceTask_GetPatientData" />
+    <bpmn:sequenceFlow id="Flow_0rvk2sx" sourceRef="ServiceTask_GetPatientData" targetRef="ServiceTask_MedicalHistoryAnalysis" />
+    <bpmn:sequenceFlow id="Flow_0q3hxmj" sourceRef="ServiceTask_MedicalHistoryAnalysis" targetRef="BusinessRuleTask_MatchSpecialist" />
+    <bpmn:sequenceFlow id="Flow_02at5hq" sourceRef="BusinessRuleTask_MatchSpecialist" targetRef="EventBasedGateway_PatientChoice" />
+    <bpmn:sequenceFlow id="Flow_014h0p4" sourceRef="EventBasedGateway_PatientChoice" targetRef="IntermediateCatchEvent_Timer" />
+    <bpmn:sequenceFlow id="Flow_16cddb3" sourceRef="EventBasedGateway_PatientChoice" targetRef="IntermediateCatchEvent_Message" />
+    <bpmn:sequenceFlow id="Flow_0h7ycv1" sourceRef="IntermediateCatchEvent_Message" targetRef="ParallelGateway_CheckAndConfirm" />
+    <bpmn:sequenceFlow id="Flow_0ly6ash" sourceRef="ParallelGateway_CheckAndConfirm" targetRef="ServiceTask_CheckDoctorAvailability" />
+    <bpmn:sequenceFlow id="Flow_1k6odn2" sourceRef="ParallelGateway_CheckAndConfirm" targetRef="ServiceTask_SendConfirmation" />
+    <bpmn:sequenceFlow id="Flow_1lbjary" sourceRef="ServiceTask_CheckDoctorAvailability" targetRef="UserTask_PatientConfirmation" />
+    <bpmn:sequenceFlow id="Flow_0ivsb6o" sourceRef="ServiceTask_SendConfirmation" targetRef="UserTask_PatientConfirmation" />
+    <bpmn:sequenceFlow id="Flow_0ntmk5z" sourceRef="ServiceTask_CheckDoctorAvailability" targetRef="BusinessRuleTask_MatchSpecialist" />
+    <bpmn:sequenceFlow id="Flow_1hb3267" sourceRef="UserTask_PatientConfirmation" targetRef="IntermediateThrowEvent_ReservationConfirmed" />
+    <bpmn:sequenceFlow id="Flow_1uwdk3s" sourceRef="IntermediateThrowEvent_ReservationConfirmed" targetRef="SubProcess_QueueManagement" />
+    <bpmn:sequenceFlow id="Flow_1g4wura" sourceRef="SubProcess_QueueManagement" targetRef="EndEvent_ReservationCompleted" />
+  </bpmn:process>
+  <bpmn:signal id="ReservationConfirmedSignal" name="Reservation potwierdzona" />
+  <bpmn:dataStore id="DataStore_MedicalKnowledge" name="Baza wiedzy medycznej" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ReservationProcess">
+      <bpmndi:BPMNShape id="Shape_StartEvent" bpmnElement="StartEvent_Timer">
+        <dc:Bounds x="170" y="210" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="157" y="246" width="62" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ExclusiveGateway" bpmnElement="ExclusiveGateway_NewReservation" isMarkerVisible="true">
+        <dc:Bounds x="250" y="210" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="245" y="260" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ServiceTask_GetPatientData" bpmnElement="ServiceTask_GetPatientData">
+        <dc:Bounds x="330" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ServiceTask_MedicalHistoryAnalysis" bpmnElement="ServiceTask_MedicalHistoryAnalysis">
+        <dc:Bounds x="450" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_BusinessRuleTask_MatchSpecialist" bpmnElement="BusinessRuleTask_MatchSpecialist">
+        <dc:Bounds x="570" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EventBasedGateway" bpmnElement="EventBasedGateway_PatientChoice">
+        <dc:Bounds x="690" y="210" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="677" y="260" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_IntermediateCatchEvent_Timer" bpmnElement="IntermediateCatchEvent_Timer">
+        <dc:Bounds x="770" y="150" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="760" y="186" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_IntermediateCatchEvent_Message" bpmnElement="IntermediateCatchEvent_Message">
+        <dc:Bounds x="770" y="230" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="745" y="266" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ParallelGateway" bpmnElement="ParallelGateway_CheckAndConfirm">
+        <dc:Bounds x="830" y="210" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="821" y="146.5" width="68" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ServiceTask_CheckDoctorAvailability" bpmnElement="ServiceTask_CheckDoctorAvailability">
+        <dc:Bounds x="910" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ServiceTask_SendConfirmation" bpmnElement="ServiceTask_SendConfirmation">
+        <dc:Bounds x="910" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_UserTask_PatientConfirmation" bpmnElement="UserTask_PatientConfirmation">
+        <dc:Bounds x="1050" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_IntermediateThrowEvent" bpmnElement="IntermediateThrowEvent_ReservationConfirmed">
+        <dc:Bounds x="1190" y="270" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1175" y="306" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SubProcess_QueueManagement" bpmnElement="SubProcess_QueueManagement">
+        <dc:Bounds x="1250" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent" bpmnElement="EndEvent_ReservationCompleted">
+        <dc:Bounds x="1390" y="270" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1379" y="306" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0lmg9k4_di" bpmnElement="Flow_0lmg9k4">
+        <di:waypoint x="300" y="235" />
+        <di:waypoint x="315" y="235" />
+        <di:waypoint x="315" y="230" />
+        <di:waypoint x="330" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rvk2sx_di" bpmnElement="Flow_0rvk2sx">
+        <di:waypoint x="430" y="230" />
+        <di:waypoint x="450" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0q3hxmj_di" bpmnElement="Flow_0q3hxmj">
+        <di:waypoint x="550" y="230" />
+        <di:waypoint x="570" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02at5hq_di" bpmnElement="Flow_02at5hq">
+        <di:waypoint x="670" y="230" />
+        <di:waypoint x="680" y="230" />
+        <di:waypoint x="680" y="235" />
+        <di:waypoint x="690" y="235" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_014h0p4_di" bpmnElement="Flow_014h0p4">
+        <di:waypoint x="715" y="210" />
+        <di:waypoint x="715" y="168" />
+        <di:waypoint x="770" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16cddb3_di" bpmnElement="Flow_16cddb3">
+        <di:waypoint x="740" y="235" />
+        <di:waypoint x="755" y="235" />
+        <di:waypoint x="755" y="248" />
+        <di:waypoint x="770" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h7ycv1_di" bpmnElement="Flow_0h7ycv1">
+        <di:waypoint x="806" y="248" />
+        <di:waypoint x="818" y="248" />
+        <di:waypoint x="818" y="235" />
+        <di:waypoint x="830" y="235" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ly6ash_di" bpmnElement="Flow_0ly6ash">
+        <di:waypoint x="880" y="235" />
+        <di:waypoint x="895" y="235" />
+        <di:waypoint x="895" y="190" />
+        <di:waypoint x="910" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k6odn2_di" bpmnElement="Flow_1k6odn2">
+        <di:waypoint x="855" y="260" />
+        <di:waypoint x="855" y="290" />
+        <di:waypoint x="910" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lbjary_di" bpmnElement="Flow_1lbjary">
+        <di:waypoint x="1010" y="190" />
+        <di:waypoint x="1030" y="190" />
+        <di:waypoint x="1030" y="270" />
+        <di:waypoint x="1050" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ivsb6o_di" bpmnElement="Flow_0ivsb6o">
+        <di:waypoint x="1010" y="290" />
+        <di:waypoint x="1050" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ntmk5z_di" bpmnElement="Flow_0ntmk5z">
+        <di:waypoint x="960" y="150" />
+        <di:waypoint x="960" y="80" />
+        <di:waypoint x="620" y="80" />
+        <di:waypoint x="620" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hb3267_di" bpmnElement="Flow_1hb3267">
+        <di:waypoint x="1150" y="290" />
+        <di:waypoint x="1170" y="290" />
+        <di:waypoint x="1170" y="288" />
+        <di:waypoint x="1190" y="288" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uwdk3s_di" bpmnElement="Flow_1uwdk3s">
+        <di:waypoint x="1226" y="288" />
+        <di:waypoint x="1238" y="288" />
+        <di:waypoint x="1238" y="290" />
+        <di:waypoint x="1250" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g4wura_di" bpmnElement="Flow_1g4wura">
+        <di:waypoint x="1350" y="290" />
+        <di:waypoint x="1370" y="290" />
+        <di:waypoint x="1370" y="288" />
+        <di:waypoint x="1390" y="288" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="SubProcess_QueueManagement" />
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
