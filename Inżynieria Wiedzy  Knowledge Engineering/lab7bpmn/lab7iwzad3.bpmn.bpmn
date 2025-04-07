@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_RekomendacjaProduktu" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="ef3429c">
+  <bpmn:process id="Process_RekomendacjaProduktu" name="Proces rekomendacji produktu" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Produkty" name="Klient przegląda produkty">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_SledzenieAktywnosci" name="System śledzi aktywność klienta">
+      <bpmn:documentation>Dane Aktywności Klienta</bpmn:documentation>
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_AnalizaProfilu" name="System analizuje profil klienta">
+      <bpmn:documentation>Profil Klienta</bpmn:documentation>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_RegulyAsocjacyjne" name="System wykorzystuje reguły asocjacyjne">
+      <bpmn:documentation>Reguły Asocjacyjne (np. 'klienci kupujący X kupują także Y')</bpmn:documentation>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_Rekomendacje" name="Czy zidentyfikowano produkty powiązane?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_WyswietlRekomendacje" name="System wyświetla rekomendacje">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:userTask id="Task_AkceptacjaRekomendacji" name="Klient akceptuje rekomendacje i dodaje produkty do koszyka">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_Zakup" name="Zakup dokonany">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_Sesja" name="Sesja przeglądania zakończona">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_Produkty" targetRef="Task_SledzenieAktywnosci" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_SledzenieAktywnosci" targetRef="Task_AnalizaProfilu" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_AnalizaProfilu" targetRef="Task_RegulyAsocjacyjne" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_RegulyAsocjacyjne" targetRef="Gateway_Rekomendacje" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Gateway_Rekomendacje" targetRef="Task_WyswietlRekomendacje">
+      <bpmn:conditionExpression xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bpmn:tFormalExpression">
+        [produktyPowiazane == true]
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Gateway_Rekomendacje" targetRef="EndEvent_Sesja">
+      <bpmn:conditionExpression xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bpmn:tFormalExpression">
+        [produktyPowiazane == false]
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_WyswietlRekomendacje" targetRef="Task_AkceptacjaRekomendacji" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_AkceptacjaRekomendacji" targetRef="EndEvent_Zakup" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_RekomendacjaProduktu">
+    <bpmndi:BPMNPlane id="BPMNPlane_RekomendacjaProduktu" bpmnElement="Process_RekomendacjaProduktu">
+      <bpmndi:BPMNShape id="Shape_StartEvent_Produkty" bpmnElement="StartEvent_Produkty">
+        <dc:Bounds x="100" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_SledzenieAktywnosci" bpmnElement="Task_SledzenieAktywnosci">
+        <dc:Bounds x="160" y="90" width="120" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AnalizaProfilu" bpmnElement="Task_AnalizaProfilu">
+        <dc:Bounds x="300" y="90" width="140" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RegulyAsocjacyjne" bpmnElement="Task_RegulyAsocjacyjne">
+        <dc:Bounds x="450" y="90" width="160" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_Rekomendacje" bpmnElement="Gateway_Rekomendacje" isMarkerVisible="true">
+        <dc:Bounds x="630" y="90" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="616" y="26.5" width="78" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_WyswietlRekomendacje" bpmnElement="Task_WyswietlRekomendacje">
+        <dc:Bounds x="710" y="90" width="160" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AkceptacjaRekomendacji" bpmnElement="Task_AkceptacjaRekomendacji">
+        <dc:Bounds x="890" y="90" width="200" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_Zakup" bpmnElement="EndEvent_Zakup">
+        <dc:Bounds x="1110" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_Sesja" bpmnElement="EndEvent_Sesja">
+        <dc:Bounds x="562" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="549" y="278" width="63" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_1" bpmnElement="Flow_1">
+        <di:waypoint x="136" y="118" />
+        <di:waypoint x="160" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_2" bpmnElement="Flow_2">
+        <di:waypoint x="280" y="115" />
+        <di:waypoint x="300" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_3" bpmnElement="Flow_3">
+        <di:waypoint x="440" y="115" />
+        <di:waypoint x="450" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_4" bpmnElement="Flow_4">
+        <di:waypoint x="610" y="115" />
+        <di:waypoint x="630" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_5" bpmnElement="Flow_5">
+        <di:waypoint x="680" y="115" />
+        <di:waypoint x="710" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_6" bpmnElement="Flow_6">
+        <di:waypoint x="655" y="140" />
+        <di:waypoint x="655" y="272" />
+        <di:waypoint x="593" y="272" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_7" bpmnElement="Flow_7">
+        <di:waypoint x="870" y="115" />
+        <di:waypoint x="890" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_8" bpmnElement="Flow_8">
+        <di:waypoint x="1090" y="115" />
+        <di:waypoint x="1110" y="118" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

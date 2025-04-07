@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="ef3429c" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
+  <bpmn:process id="Process_Diagnoza" name="Diagnoza problemu technicznego" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Klient zgłasza problem techniczny">
+      <bpmn:outgoing>SequenceFlow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_Register" name="Agent rejestruje zgłoszenie">
+      <bpmn:incoming>SequenceFlow_1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:serviceTask id="Task_SearchKB" name="System przeszukuje bazę wiedzy">
+      <bpmn:incoming>SequenceFlow_2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Task_Verify" name="Agent weryfikuje rozwiązania">
+      <bpmn:incoming>SequenceFlow_3</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1" name="Znaleziono pasujące rozwiązanie?">
+      <bpmn:incoming>SequenceFlow_4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_5</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ticmcq</bpmn:outgoing>
+      <bpmn:outgoing>Flow_00vqhha</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_ProvideSolution" name="Agent przekazuje rozwiązanie klientowi">
+      <bpmn:incoming>SequenceFlow_5</bpmn:incoming>
+      <bpmn:incoming>Flow_1ticmcq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0o2iawn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Escalate" name="Agent eskaluje problem do specjalisty">
+      <bpmn:incoming>SequenceFlow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_00vqhha</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1tbmqvj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_SpecialistAnalyze" name="Specjalista analizuje problem">
+      <bpmn:incoming>SequenceFlow_8</bpmn:incoming>
+      <bpmn:incoming>Flow_1tbmqvj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0nmf24y</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_AdvancedSearch" name="Specjalista przeszukuje zaawansowaną bazę wiedzy/eksperymentuje">
+      <bpmn:incoming>SequenceFlow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_0nmf24y</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0dywfl2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_FindSolution" name="Specjalista znajduje rozwiązanie">
+      <bpmn:incoming>SequenceFlow_10</bpmn:incoming>
+      <bpmn:incoming>Flow_0dywfl2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10smq14</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_UpdateKB" name="Specjalista aktualizuje bazę wiedzy">
+      <bpmn:incoming>SequenceFlow_11</bpmn:incoming>
+      <bpmn:incoming>Flow_10smq14</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12aj7t5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_InformClient" name="Agent informuje klienta o rozwiązaniu">
+      <bpmn:incoming>SequenceFlow_12</bpmn:incoming>
+      <bpmn:incoming>Flow_12aj7t5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11p5b9x</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1" name="Problem rozwiązany i zgłoszenie zamknięte">
+      <bpmn:incoming>SequenceFlow_7</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_13</bpmn:incoming>
+      <bpmn:incoming>Flow_0o2iawn</bpmn:incoming>
+      <bpmn:incoming>Flow_11p5b9x</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1" sourceRef="StartEvent_1" targetRef="Task_Register" />
+    <bpmn:sequenceFlow id="SequenceFlow_2" sourceRef="Task_Register" targetRef="Task_SearchKB" />
+    <bpmn:sequenceFlow id="SequenceFlow_3" sourceRef="Task_SearchKB" targetRef="Task_Verify" />
+    <bpmn:sequenceFlow id="SequenceFlow_4" sourceRef="Task_Verify" targetRef="Gateway_1" />
+    <bpmn:sequenceFlow id="SequenceFlow_5" sourceRef="Gateway_1" targetRef="Task_ProvideSolution">
+      <bpmn:conditionExpression xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bpmn:tFormalExpression">[znalezionoRozwiazanie == true]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_6" sourceRef="Gateway_1" targetRef="Task_Escalate">
+      <bpmn:conditionExpression xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bpmn:tFormalExpression">[znalezionoRozwiazanie == false]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_7" sourceRef="Task_ProvideSolution" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="SequenceFlow_8" sourceRef="Task_Escalate" targetRef="Task_SpecialistAnalyze" />
+    <bpmn:sequenceFlow id="SequenceFlow_9" sourceRef="Task_SpecialistAnalyze" targetRef="Task_AdvancedSearch" />
+    <bpmn:sequenceFlow id="SequenceFlow_10" sourceRef="Task_AdvancedSearch" targetRef="Task_FindSolution" />
+    <bpmn:sequenceFlow id="SequenceFlow_11" sourceRef="Task_FindSolution" targetRef="Task_UpdateKB" />
+    <bpmn:sequenceFlow id="SequenceFlow_12" sourceRef="Task_UpdateKB" targetRef="Task_InformClient" />
+    <bpmn:sequenceFlow id="SequenceFlow_13" sourceRef="Task_InformClient" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_1ticmcq" sourceRef="Gateway_1" targetRef="Task_ProvideSolution" />
+    <bpmn:sequenceFlow id="Flow_0o2iawn" sourceRef="Task_ProvideSolution" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_00vqhha" sourceRef="Gateway_1" targetRef="Task_Escalate" />
+    <bpmn:sequenceFlow id="Flow_1tbmqvj" sourceRef="Task_Escalate" targetRef="Task_SpecialistAnalyze" />
+    <bpmn:sequenceFlow id="Flow_0nmf24y" sourceRef="Task_SpecialistAnalyze" targetRef="Task_AdvancedSearch" />
+    <bpmn:sequenceFlow id="Flow_0dywfl2" sourceRef="Task_AdvancedSearch" targetRef="Task_FindSolution" />
+    <bpmn:sequenceFlow id="Flow_10smq14" sourceRef="Task_FindSolution" targetRef="Task_UpdateKB" />
+    <bpmn:sequenceFlow id="Flow_12aj7t5" sourceRef="Task_UpdateKB" targetRef="Task_InformClient" />
+    <bpmn:sequenceFlow id="Flow_11p5b9x" sourceRef="Task_InformClient" targetRef="EndEvent_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Diagnoza">
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
+        <dc:Bounds x="100" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Register" bpmnElement="Task_Register">
+        <dc:Bounds x="160" y="90" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_SearchKB" bpmnElement="Task_SearchKB">
+        <dc:Bounds x="280" y="90" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Verify" bpmnElement="Task_Verify">
+        <dc:Bounds x="400" y="90" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Gateway_1" bpmnElement="Gateway_1" isMarkerVisible="true">
+        <dc:Bounds x="520" y="90" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_ProvideSolution" bpmnElement="Task_ProvideSolution">
+        <dc:Bounds x="600" y="30" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Escalate" bpmnElement="Task_Escalate">
+        <dc:Bounds x="600" y="110" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_SpecialistAnalyze" bpmnElement="Task_SpecialistAnalyze">
+        <dc:Bounds x="720" y="110" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_AdvancedSearch" bpmnElement="Task_AdvancedSearch">
+        <dc:Bounds x="840" y="110" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_FindSolution" bpmnElement="Task_FindSolution">
+        <dc:Bounds x="960" y="110" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_UpdateKB" bpmnElement="Task_UpdateKB">
+        <dc:Bounds x="1080" y="110" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_InformClient" bpmnElement="Task_InformClient">
+        <dc:Bounds x="1200" y="110" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">
+        <dc:Bounds x="1320" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_SequenceFlow_1" bpmnElement="SequenceFlow_1">
+        <di:waypoint x="136" y="118" />
+        <di:waypoint x="160" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_SequenceFlow_2" bpmnElement="SequenceFlow_2">
+        <di:waypoint x="260" y="115" />
+        <di:waypoint x="280" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_SequenceFlow_3" bpmnElement="SequenceFlow_3">
+        <di:waypoint x="380" y="115" />
+        <di:waypoint x="400" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_SequenceFlow_4" bpmnElement="SequenceFlow_4">
+        <di:waypoint x="500" y="115" />
+        <di:waypoint x="520" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ticmcq_di" bpmnElement="Flow_1ticmcq">
+        <di:waypoint x="545" y="90" />
+        <di:waypoint x="545" y="55" />
+        <di:waypoint x="600" y="55" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0o2iawn_di" bpmnElement="Flow_0o2iawn">
+        <di:waypoint x="700" y="55" />
+        <di:waypoint x="1010" y="55" />
+        <di:waypoint x="1180" y="20" />
+        <di:waypoint x="1323" y="109" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00vqhha_di" bpmnElement="Flow_00vqhha">
+        <di:waypoint x="570" y="115" />
+        <di:waypoint x="585" y="115" />
+        <di:waypoint x="585" y="140" />
+        <di:waypoint x="600" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tbmqvj_di" bpmnElement="Flow_1tbmqvj">
+        <di:waypoint x="700" y="135" />
+        <di:waypoint x="720" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nmf24y_di" bpmnElement="Flow_0nmf24y">
+        <di:waypoint x="820" y="135" />
+        <di:waypoint x="830" y="135" />
+        <di:waypoint x="830" y="130" />
+        <di:waypoint x="840" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dywfl2_di" bpmnElement="Flow_0dywfl2">
+        <di:waypoint x="940" y="135" />
+        <di:waypoint x="950" y="135" />
+        <di:waypoint x="950" y="150" />
+        <di:waypoint x="960" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10smq14_di" bpmnElement="Flow_10smq14">
+        <di:waypoint x="1060" y="135" />
+        <di:waypoint x="1080" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12aj7t5_di" bpmnElement="Flow_12aj7t5">
+        <di:waypoint x="1180" y="135" />
+        <di:waypoint x="1190" y="135" />
+        <di:waypoint x="1190" y="150" />
+        <di:waypoint x="1200" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11p5b9x_di" bpmnElement="Flow_11p5b9x">
+        <di:waypoint x="1300" y="135" />
+        <di:waypoint x="1310" y="135" />
+        <di:waypoint x="1310" y="118" />
+        <di:waypoint x="1320" y="118" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

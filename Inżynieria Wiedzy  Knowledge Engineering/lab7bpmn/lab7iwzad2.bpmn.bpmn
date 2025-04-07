@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_DiagnozaChoroby" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="ef3429c">
+  <bpmn:process id="Process_DiagnozaChoroby" name="Proces diagnozowania choroby" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Pacjent zgłasza objawy">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_RejestracjaObjawow" name="Lekarz rejestruje objawy pacjenta">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:task id="Task_AnalizaOntologia" name="System analizuje objawy z wykorzystaniem ontologii medycznej">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_PrzedstawDiagnozy" name="System przedstawia listę prawdopodobnych diagnoz">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:userTask id="Task_DodatkoweBadania" name="Lekarz przeprowadza dodatkowe badania">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Badania" name="Czy wyniki badań potwierdzają diagnozę?">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_StawDiagnoze" name="Lekarz stawia ostateczną diagnozę">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_PlanLeczenia" name="Lekarz planuje leczenie">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1" name="Diagnoza i plan leczenia ustalone">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_RejestracjaObjawow" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_RejestracjaObjawow" targetRef="Task_AnalizaOntologia" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_AnalizaOntologia" targetRef="Task_PrzedstawDiagnozy" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_PrzedstawDiagnozy" targetRef="Task_DodatkoweBadania" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_DodatkoweBadania" targetRef="Gateway_Badania" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Gateway_Badania" targetRef="Task_StawDiagnoze">
+      <bpmn:conditionExpression xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bpmn:tFormalExpression">
+        [wynikiPotwierdzaja == true]
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Gateway_Badania" targetRef="Task_StawDiagnoze">
+      <bpmn:conditionExpression xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bpmn:tFormalExpression">
+        [wynikiPotwierdzaja == false]
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_StawDiagnoze" targetRef="Task_PlanLeczenia" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_PlanLeczenia" targetRef="EndEvent_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_DiagnozaChoroby">
+    <bpmndi:BPMNPlane id="BPMNPlane_DiagnozaChoroby" bpmnElement="Process_DiagnozaChoroby">
+      <bpmndi:BPMNShape id="Shape_StartEvent_1" bpmnElement="StartEvent_1">
+        <dc:Bounds x="100" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RejestracjaObjawow" bpmnElement="Task_RejestracjaObjawow">
+        <dc:Bounds x="160" y="90" width="120" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AnalizaOntologia" bpmnElement="Task_AnalizaOntologia">
+        <dc:Bounds x="300" y="90" width="180" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_PrzedstawDiagnozy" bpmnElement="Task_PrzedstawDiagnozy">
+        <dc:Bounds x="500" y="90" width="180" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_DodatkoweBadania" bpmnElement="Task_DodatkoweBadania">
+        <dc:Bounds x="700" y="90" width="180" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_Badania" bpmnElement="Gateway_Badania" isMarkerVisible="true">
+        <dc:Bounds x="900" y="90" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_StawDiagnoze" bpmnElement="Task_StawDiagnoze">
+        <dc:Bounds x="980" y="90" width="180" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_PlanLeczenia" bpmnElement="Task_PlanLeczenia">
+        <dc:Bounds x="1180" y="90" width="180" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_1" bpmnElement="EndEvent_1">
+        <dc:Bounds x="1370" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_1" bpmnElement="Flow_1">
+        <di:waypoint x="136" y="118" />
+        <di:waypoint x="160" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_2" bpmnElement="Flow_2">
+        <di:waypoint x="280" y="115" />
+        <di:waypoint x="300" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_3" bpmnElement="Flow_3">
+        <di:waypoint x="480" y="115" />
+        <di:waypoint x="500" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_4" bpmnElement="Flow_4">
+        <di:waypoint x="680" y="115" />
+        <di:waypoint x="700" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_5" bpmnElement="Flow_5">
+        <di:waypoint x="880" y="115" />
+        <di:waypoint x="900" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_6" bpmnElement="Flow_6">
+        <di:waypoint x="950" y="115" />
+        <di:waypoint x="980" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_7" bpmnElement="Flow_7">
+        <di:waypoint x="950" y="145" />
+        <di:waypoint x="980" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_8" bpmnElement="Flow_8">
+        <di:waypoint x="1160" y="115" />
+        <di:waypoint x="1180" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_9" bpmnElement="Flow_9">
+        <di:waypoint x="1360" y="115" />
+        <di:waypoint x="1370" y="118" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
