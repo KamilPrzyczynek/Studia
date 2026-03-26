@@ -10,12 +10,10 @@ export function AddTodoForm({ onAdd }: AddTodoFormProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!inputValue.trim()) {
-            return;
+        if (inputValue.trim()) {
+            onAdd(inputValue.trim());
+            setInputValue('');
         }
-
-        onAdd(inputValue.trim());
-        setInputValue('');
     };
 
     return (

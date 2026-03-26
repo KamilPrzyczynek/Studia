@@ -9,7 +9,7 @@ interface TodoListProps {
 
 export function TodoList({ todos, onToggle, onDelete }: TodoListProps) {
     if (todos.length === 0) {
-        return <p className="empty-state">Brak zadań.</p>;
+        return <p className="empty-state">Brak zadań do wyświetlenia.</p>;
     }
 
     return (

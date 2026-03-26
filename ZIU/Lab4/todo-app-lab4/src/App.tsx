@@ -15,13 +15,13 @@ const initialTodos: Todo[] = [
   },
   {
     id: crypto.randomUUID(),
-    title: 'Zrobić komponent TodoItem',
+    title: 'Napisać komponent TodoItem',
     completed: true,
     createdAt: new Date(),
   },
   {
     id: crypto.randomUUID(),
-    title: 'Dodać filtrowanie listy',
+    title: 'Dodać filtrowanie zadań',
     completed: false,
     createdAt: new Date(),
   },

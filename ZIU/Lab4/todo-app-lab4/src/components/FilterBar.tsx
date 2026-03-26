@@ -5,7 +5,10 @@ interface FilterBarProps {
     onFilterChange: (filter: FilterType) => void;
 }
 
-export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
+export function FilterBar({
+                              activeFilter,
+                              onFilterChange,
+                          }: FilterBarProps) {
     return (
         <div className="filter-bar">
             <button
