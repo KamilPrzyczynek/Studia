@@ -1,12 +1,7 @@
-import type { Todo } from '../types/todo.types';
+import './TodoItem.css';
+import { Button } from './Button';
 
-interface TodoItemProps {
-    todo: Todo;
-    onToggle: (id: string) => void;
-    onDelete: (id: string) => void;
-}
-
-export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
+export function TodoItem({ todo, onToggle, onDelete }: any) {
     return (
         <li className="todo-item">
             <label className="todo-left">
@@ -15,19 +10,11 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
                     checked={todo.completed}
                     onChange={() => onToggle(todo.id)}
                 />
-                <span
-                    style={{
-                        textDecoration: todo.completed ? 'line-through' : 'none',
-                        color: todo.completed ? '#888' : '#222',
-                    }}
-                >
-          {todo.title}
-        </span>
+                <span className={`todo-text ${todo.completed ? 'completed' : ''}`}>
+                    {todo.title}
+                </span>
             </label>
-
-            <button className="button danger" onClick={() => onDelete(todo.id)}>
-                Usuń
-            </button>
+            <Button label="Usuń" variant="ghost" onClick={() => onDelete(todo.id)} />
         </li>
     );
 }

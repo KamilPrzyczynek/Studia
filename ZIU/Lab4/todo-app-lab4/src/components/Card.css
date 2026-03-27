@@ -1,0 +1,31 @@
+.card {
+    background-color: #F7F7F7;
+    border: 1px solid #DADADA;
+    border-radius: 16px;
+    padding: 24px;
+    width: 360px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+    transition: var(--transition);
+}
+
+.card:hover {
+    box-shadow: var(--shadow);
+}
+
+.card-title-skeleton {
+    width: 200px;
+    height: 16px;
+    background-color: #D9D9D9;
+    border-radius: 4px;
+}
+
+.card-body-skeleton {
+    width: 260px;
+    height: 12px;
+    background-color: #E5E5E5;
+    border-radius: 4px;
+}

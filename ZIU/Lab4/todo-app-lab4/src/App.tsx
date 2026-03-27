@@ -1,80 +1,72 @@
-import { useMemo, useReducer, useState } from 'react';
-import { AddTodoForm } from './components/AddTodoForm';
-import { FilterBar } from './components/FilterBar';
-import { TodoList } from './components/TodoList';
+import { useReducer, useState } from 'react';
 import { todoReducer } from './reducers/todoReducer';
-import type { FilterType, Todo } from './types/todo.types';
-import './styles.css';
+import { ThemeProvider } from './context/ThemeProvider';
+import { useTheme } from "./context/useTheme";
+import { Card } from './components/Card';
+import { Button } from './components/Button';
+import { Input } from './components/Input';
+import { TodoList } from './components/TodoList';
+import './App.css';
 
-const initialTodos: Todo[] = [
-  {
-    id: crypto.randomUUID(),
-    title: 'Przygotować projekt w Figmie',
-    completed: false,
-    createdAt: new Date(),
-  },
-  {
-    id: crypto.randomUUID(),
-    title: 'Napisać komponent TodoItem',
-    completed: true,
-    createdAt: new Date(),
-  },
-  {
-    id: crypto.randomUUID(),
-    title: 'Dodać filtrowanie zadań',
-    completed: false,
-    createdAt: new Date(),
-  },
-];
-
-function App() {
-  const [todos, dispatch] = useReducer(todoReducer, initialTodos);
-  const [filter, setFilter] = useState<FilterType>('all');
-
-  const handleAdd = (title: string) => {
-    dispatch({ type: 'ADD', payload: title });
-  };
-
-  const handleToggle = (id: string) => {
-    dispatch({ type: 'TOGGLE', payload: id });
-  };
-
-  const handleDelete = (id: string) => {
-    dispatch({ type: 'DELETE', payload: id });
-  };
-
-  const filteredTodos = useMemo(() => {
-    return todos.filter((todo) => {
-      if (filter === 'active') return !todo.completed;
-      if (filter === 'completed') return todo.completed;
-      return true;
-    });
-  }, [todos, filter]);
-
-  const activeCount = todos.filter((t) => !t.completed).length;
+function AppContent() {
+  const [taskTitle, setTaskTitle] = useState('');
+  const { theme, setTheme } = useTheme();
 
   return (
-      <main className="app">
-        <section className="todo-card">
-          <header className="header">
-            <h1>Lista zadań</h1>
-            <p>
-              Aktywne: {activeCount} / Wszystkie: {todos.length}
-            </p>
-          </header>
+      <div className="dashboard-layout">
+        <header className="navbar">
+          <div className="logo-box">LOGO</div>
+          <div className="nav-links">
+            <div className="nav-item"></div>
+            <div className="nav-item"></div>
+            <div className="nav-item"></div>
+          </div>
+          <div className="nav-right">
+            <Button
+                label={theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+                variant="ghost"
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            />
+            <div className="avatar-circle"></div>
+          </div>
+        </header>
 
-          <AddTodoForm onAdd={handleAdd} />
-
-          <FilterBar activeFilter={filter} onFilterChange={setFilter} />
-
-          <TodoList
-              todos={filteredTodos}
-              onToggle={handleToggle}
-              onDelete={handleDelete}
-          />
+        <section className="hero-section">
+          <div className="hero-h1-placeholder"></div>
+          <div className="hero-body-placeholders">
+            <div className="hero-line-1"></div>
+            <div className="hero-line-2"></div>
+          </div>
+          <Button label="Primary Button" variant="primary" size="large" />
         </section>
-      </main>
+
+        <main className="main-content">
+          <div className="grid-cards">
+            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
+            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
+            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
+            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
+            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
+            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
+          </div>
+        </main>
+
+        <footer className="footer">
+          <div className="footer-links">
+            <div className="footer-item"></div>
+            <div className="footer-item"></div>
+            <div className="footer-item"></div>
+          </div>
+          <div className="version-text">version 1.0</div>
+        </footer>
+      </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+  );
+}
