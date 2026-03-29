@@ -1,6 +1,6 @@
 export type Priority = 'low' | 'medium' | 'high';
 export type FilterType = 'all' | 'active' | 'completed';
-export type PriorityFilter = 'all' | Priority;
+export type SortType = 'date-asc' | 'date-desc' | 'priority' | 'alphabetical';
 
 export interface Todo {
     id: string;

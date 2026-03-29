@@ -1,35 +1,354 @@
 :root {
-  --color-background: #FFFFFF;
-  --color-surface: #F5F5F5;
-  --color-text: #222222;
-  --color-card: #FAFAFA;
+  --app-page-bg: #ffffff;
+  --app-shell-bg: #ffffff;
+  --app-surface: #fafafa;
+  --app-panel: #ffffff;
+  --app-header-bg: #f5f5f5;
+  --app-text: #333333;
+  --app-muted: #7a7a7a;
+  --app-label: #555555;
+  --app-border: #dadada;
+  --app-divider: #e0e0e0;
+  --app-input-bg: #ffffff;
+  --app-input-border: #d4d4d4;
+  --app-input-focus: #bcbcbc;
+  --app-placeholder: #9a9a9a;
+  --app-chip-bg: #f1f1f1;
+  --app-chip-text: #555555;
+  --app-success: #1f7a3f;
+  --app-overlay: rgba(0, 0, 0, 0.08);
+
   --color-primary: #333333;
-  --color-border: #D9D9D9;
-  --color-error: #D32F2F;
-  --color-button-text: #FFFFFF;
+  --color-primary-hover: #262626;
+  --color-text: #333333;
+  --color-text-muted: #7a7a7a;
+  --color-border: #d4d4d4;
+  --color-surface: #fafafa;
+  --color-background: #ffffff;
+  --color-button-text: #ffffff;
+  --color-error: #dc2626;
 
-  --font-h1: 700 32px/1.2 'Inter', sans-serif;
-  --font-h2: 700 28px/1.2 'Inter', sans-serif;
-  --font-h3: 600 24px/1.3 'Inter', sans-serif;
-  --font-h4: 600 20px/1.3 'Inter', sans-serif;
-  --font-h5: 600 18px/1.3 'Inter', sans-serif;
-  --font-h6: 600 16px/1.3 'Inter', sans-serif;
-  --font-body1: 400 16px/1.5 'Inter', sans-serif;
-  --font-body2: 400 14px/1.5 'Inter', sans-serif;
-  --font-caption: 400 12px/1.6 'Inter', sans-serif;
-
-  --radius: 12px;
-  --transition: 0.2s ease-in-out;
+  --transition: 0.2s ease;
 }
 
-[data-theme='dark'] {
-  --color-background: #121212;
-  --color-surface: #1E1E1E;
-  --color-text: #FFFFFF;
-  --color-card: #1C1C1C;
-  --color-border: #444444;
-  --color-error: #FF6B6B;
+body[data-app-theme='dark'],
+html[data-app-theme='dark'] {
+  --app-page-bg: #121212;
+  --app-shell-bg: #121212;
+  --app-surface: #1c1c1c;
+  --app-panel: #1a1a1a;
+  --app-header-bg: #1f1f1f;
+  --app-text: #f2f2f2;
+  --app-muted: #b0b0b0;
+  --app-label: #dedede;
+  --app-border: #343434;
+  --app-divider: #2c2c2c;
+  --app-input-bg: #202020;
+  --app-input-border: #3b3b3b;
+  --app-input-focus: #5b5b5b;
+  --app-placeholder: #8f8f8f;
+  --app-chip-bg: #272727;
+  --app-chip-text: #e1e1e1;
+  --app-success: #6dd18c;
+  --app-overlay: rgba(0, 0, 0, 0.28);
+
+  --color-primary: #f2f2f2;
+  --color-primary-hover: #dddddd;
+  --color-text: #f2f2f2;
+  --color-text-muted: #b0b0b0;
+  --color-border: #3b3b3b;
+  --color-surface: #1c1c1c;
+  --color-background: #202020;
+  --color-button-text: #111111;
+  --color-error: #ff7b7b;
 }
 
-* { box-sizing: border-box; }
-body { margin: 0; font: var(--font-body1); background: var(--color-background); color: var(--color-text); }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--app-shell-bg);
+  color: var(--app-text);
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+          background-color var(--transition),
+          color var(--transition);
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  appearance: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+#root {
+  background: var(--app-shell-bg);
+}
+
+
+
+body[data-app-theme='dark'] .app-shell,
+body[data-app-theme='dark'] .home-page,
+body[data-app-theme='dark'] .tasks-page,
+body[data-app-theme='dark'] .details-page,
+body[data-app-theme='dark'] .settings-page,
+body[data-app-theme='dark'] .placeholder-view {
+  background: var(--app-page-bg) !important;
+  color: var(--app-text) !important;
+}
+
+body[data-app-theme='dark'] .app-header {
+  background: var(--app-header-bg) !important;
+  border-bottom-color: var(--app-border) !important;
+}
+
+body[data-app-theme='dark'] .logo-box,
+body[data-app-theme='dark'] .header-avatar,
+body[data-app-theme='dark'] .user-avatar,
+body[data-app-theme='dark'] .theme-toggle,
+body[data-app-theme='dark'] .settings-avatar,
+body[data-app-theme='dark'] .details-comment-avatar {
+  background: #2a2a2a !important;
+  color: #dddddd !important;
+}
+
+body[data-app-theme='dark'] .top-nav-link {
+  color: #cfcfcf !important;
+}
+
+body[data-app-theme='dark'] .top-nav-link:hover,
+body[data-app-theme='dark'] .top-nav-link.active {
+  background: #2a2a2a !important;
+  color: #ffffff !important;
+}
+
+body[data-app-theme='dark'] .tasks-filters-button,
+body[data-app-theme='dark'] .filters-reset-button,
+body[data-app-theme='dark'] .btn-secondary,
+body[data-app-theme='dark'] .btn-ghost,
+body[data-app-theme='dark'] .btn-danger {
+  background: #232323 !important;
+  color: #f0f0f0 !important;
+  border-color: #3a3a3a !important;
+}
+
+body[data-app-theme='dark'] .btn-primary,
+body[data-app-theme='dark'] .btn-fab,
+body[data-app-theme='dark'] .settings-save-button,
+body[data-app-theme='dark'] .filters-apply-button,
+body[data-app-theme='dark'] .details-add-comment button {
+  background: #f2f2f2 !important;
+  color: #111111 !important;
+  border-color: #f2f2f2 !important;
+}
+
+body[data-app-theme='dark'] .tasks-empty,
+body[data-app-theme='dark'] .empty-state-box,
+body[data-app-theme='dark'] .placeholder-view,
+body[data-app-theme='dark'] .details-main-card,
+body[data-app-theme='dark'] .details-meta-card,
+body[data-app-theme='dark'] .settings-main-card,
+body[data-app-theme='dark'] .settings-side-card,
+body[data-app-theme='dark'] .filters-preview,
+body[data-app-theme='dark'] .filters-drawer,
+body[data-app-theme='dark'] .tasks-side-panel,
+body[data-app-theme='dark'] .mobile-drawer {
+  background: var(--app-surface) !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text) !important;
+}
+
+body[data-app-theme='dark'] .task-card {
+  background: #1d1d1d !important;
+  border-color: var(--app-border) !important;
+}
+
+body[data-app-theme='dark'] .task-card:hover {
+  background: #222222 !important;
+}
+
+body[data-app-theme='dark'] .task-title,
+body[data-app-theme='dark'] .details-main-header h1,
+body[data-app-theme='dark'] .details-section h2,
+body[data-app-theme='dark'] .details-meta-card h2,
+body[data-app-theme='dark'] .tasks-heading h1,
+body[data-app-theme='dark'] .filters-header h2,
+body[data-app-theme='dark'] .tasks-panel-header h2,
+body[data-app-theme='dark'] .placeholder-view h1,
+body[data-app-theme='dark'] .settings-header h1,
+body[data-app-theme='dark'] .settings-side-card h2,
+body[data-app-theme='dark'] .settings-user-copy h2 {
+  color: var(--app-text) !important;
+}
+
+body[data-app-theme='dark'] .task-description,
+body[data-app-theme='dark'] .tasks-heading p,
+body[data-app-theme='dark'] .tasks-counter,
+body[data-app-theme='dark'] .details-breadcrumb,
+body[data-app-theme='dark'] .details-main-header p,
+body[data-app-theme='dark'] .details-section p,
+body[data-app-theme='dark'] .details-comment-copy p,
+body[data-app-theme='dark'] .filters-header p,
+body[data-app-theme='dark'] .filters-preview span,
+body[data-app-theme='dark'] .tasks-panel-header p,
+body[data-app-theme='dark'] .settings-header p,
+body[data-app-theme='dark'] .settings-user-copy p,
+body[data-app-theme='dark'] .settings-preference-block p,
+body[data-app-theme='dark'] .placeholder-view p {
+  color: var(--app-muted) !important;
+}
+
+body[data-app-theme='dark'] .priority-high,
+body[data-app-theme='dark'] .priority-medium,
+body[data-app-theme='dark'] .priority-low,
+body[data-app-theme='dark'] .details-pill,
+body[data-app-theme='dark'] .details-meta-box,
+body[data-app-theme='dark'] .status-pill,
+body[data-app-theme='dark'] .tasks-chip {
+  background: var(--app-chip-bg) !important;
+  color: var(--app-chip-text) !important;
+}
+
+body[data-app-theme='dark'] .input-field,
+body[data-app-theme='dark'] .tasks-priority-select,
+body[data-app-theme='dark'] .priority-select,
+body[data-app-theme='dark'] .details-add-comment input,
+body[data-app-theme='dark'] .settings-field-group input {
+  background: var(--app-input-bg) !important;
+  border-color: var(--app-input-border) !important;
+  color: var(--app-text) !important;
+}
+
+body[data-app-theme='dark'] .input-field::placeholder,
+body[data-app-theme='dark'] .details-add-comment input::placeholder,
+body[data-app-theme='dark'] .settings-field-group input::placeholder {
+  color: var(--app-placeholder) !important;
+}
+
+body[data-app-theme='dark'] .tasks-overlay,
+body[data-app-theme='dark'] .filters-overlay,
+body[data-app-theme='dark'] .overlay {
+  background: var(--app-overlay) !important;
+}
+
+body[data-app-theme='dark'] .details-comment-card {
+  background: #202020 !important;
+  border-color: var(--app-border) !important;
+}
+
+body[data-app-theme='dark'] .filters-section h3,
+body[data-app-theme='dark'] .filters-option,
+body[data-app-theme='dark'] .tasks-label,
+body[data-app-theme='dark'] .settings-field-group label,
+body[data-app-theme='dark'] .settings-preference-block h3,
+body[data-app-theme='dark'] .settings-check-row,
+body[data-app-theme='dark'] .details-meta-label,
+body[data-app-theme='dark'] .details-meta-value {
+  color: var(--app-label) !important;
+}
+
+body[data-app-theme='dark'] .filters-option input,
+body[data-app-theme='dark'] .settings-check-row input {
+  accent-color: #d1d1d1;
+}
+
+body[data-app-theme='dark'] .settings-divider {
+  background: var(--app-divider) !important;
+}
+
+body[data-app-theme='dark'] .home-secondary-button,
+body[data-app-theme='dark'] .home-outline-small-button,
+body[data-app-theme='dark'] .home-outline-profile-button,
+body[data-app-theme='dark'] .home-login-button {
+  background: #232323 !important;
+  color: #f0f0f0 !important;
+  border-color: #3a3a3a !important;
+}
+
+body[data-app-theme='dark'] .home-primary-button,
+body[data-app-theme='dark'] .home-primary-small-button,
+body[data-app-theme='dark'] .home-register-button {
+  background: #f2f2f2 !important;
+  color: #111111 !important;
+}
+
+body[data-app-theme='dark'] .home-logo-box {
+  background: #2a2a2a !important;
+  color: #dddddd !important;
+}
+body[data-app-theme='dark'] .auth-page {
+  background: var(--app-page-bg) !important;
+  color: var(--app-text) !important;
+}
+
+body[data-app-theme='dark'] .auth-card,
+body[data-app-theme='dark'] .auth-card-register {
+  background: var(--app-surface) !important;
+  border-color: var(--app-border) !important;
+}
+
+body[data-app-theme='dark'] .auth-card-header h1 {
+  color: var(--app-text) !important;
+}
+
+body[data-app-theme='dark'] .auth-card-header p,
+body[data-app-theme='dark'] .auth-field label {
+  color: var(--app-label) !important;
+}
+
+body[data-app-theme='dark'] .auth-field input {
+  background: var(--app-input-bg) !important;
+  border-color: var(--app-input-border) !important;
+  color: var(--app-text) !important;
+}
+
+body[data-app-theme='dark'] .auth-field input::placeholder {
+  color: var(--app-placeholder) !important;
+}
+
+body[data-app-theme='dark'] .auth-secondary-button {
+  background: #232323 !important;
+  color: #f0f0f0 !important;
+  border-color: #3a3a3a !important;
+}
+
+body[data-app-theme='dark'] .auth-primary-button {
+  background: #f2f2f2 !important;
+  color: #111111 !important;
+}

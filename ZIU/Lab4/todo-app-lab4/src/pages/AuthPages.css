@@ -1,0 +1,134 @@
+.auth-page {
+    min-height: calc(100vh - 88px);
+    background: var(--app-page-bg);
+    padding: 48px 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 560px;
+    border-radius: 20px;
+    border: 1px solid var(--app-border);
+    background: var(--app-surface);
+    padding: 40px;
+}
+
+.auth-card-register {
+    max-width: 640px;
+}
+
+.auth-card-header {
+    margin-bottom: 32px;
+}
+
+.auth-card-header h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--app-text);
+}
+
+.auth-card-header p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--app-muted);
+}
+
+.auth-form {
+    display: grid;
+    gap: 20px;
+}
+
+.auth-field label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--app-label);
+}
+
+.auth-field input {
+    width: 100%;
+    height: 56px;
+    border-radius: 12px;
+    border: 1px solid var(--app-input-border);
+    background: var(--app-input-bg);
+    color: var(--app-text);
+    padding: 0 18px;
+    font-size: 14px;
+    outline: none;
+}
+
+.auth-field input::placeholder {
+    color: var(--app-placeholder);
+}
+
+.auth-field input:focus {
+    border-color: var(--app-input-focus);
+}
+
+.auth-error {
+    margin: 0;
+    color: #dc2626;
+    font-size: 14px;
+}
+
+.auth-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.auth-primary-button,
+.auth-secondary-button {
+    min-width: 180px;
+    height: 52px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-primary-button {
+    border: none;
+    background: #333333;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.auth-secondary-button {
+    border: 1px solid #d0d0d0;
+    background: #ffffff;
+    color: #555555;
+}
+
+@media (max-width: 640px) {
+    .auth-page {
+        padding: 16px;
+    }
+
+    .auth-card,
+    .auth-card-register {
+        padding: 24px 18px;
+    }
+
+    .auth-card-header h1 {
+        font-size: 26px;
+    }
+
+    .auth-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .auth-primary-button,
+    .auth-secondary-button {
+        width: 100%;
+    }
+}

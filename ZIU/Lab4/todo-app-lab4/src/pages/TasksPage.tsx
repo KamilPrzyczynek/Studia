@@ -2,14 +2,14 @@ import { useMemo, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
-import { FilterBar } from '../components/FilterBar';
 import { Card } from '../components/Card';
+import { FiltersDrawer } from '../components/FiltersDrawer';
 import { todoReducer } from '../reducers/todoReducer';
 import { mockTodos } from '../data/mockTodos';
 import type {
     FilterType,
     Priority,
-    PriorityFilter,
+    SortType,
     Todo,
 } from '../types/todo.types';
 import './TasksPage.css';
@@ -28,14 +28,22 @@ const emptyForm: FormState = {
     priority: 'medium',
 };
 
+function getPriorityRank(priority: Priority) {
+    if (priority === 'high') return 0;
+    if (priority === 'medium') return 1;
+    return 2;
+}
+
 export default function TasksPage() {
     const navigate = useNavigate();
 
     const [todos, dispatch] = useReducer(todoReducer, mockTodos as Todo[]);
     const [filter, setFilter] = useState<FilterType>('all');
-    const [priorityFilter, setPriorityFilter] = useState<PriorityFilter>('all');
+    const [selectedPriorities, setSelectedPriorities] = useState<Priority[]>([]);
+    const [sortType, setSortType] = useState<SortType>('date-asc');
     const [search, setSearch] = useState('');
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [form, setForm] = useState<FormState>(emptyForm);
     const [formError, setFormError] = useState('');
 
@@ -44,7 +52,7 @@ export default function TasksPage() {
     const filteredTodos = useMemo(() => {
         const normalizedSearch = search.trim().toLowerCase();
 
-        return todos.filter((todo) => {
+        const filtered = todos.filter((todo) => {
             const matchesStatus =
                 filter === 'all'
                     ? true
@@ -53,7 +61,9 @@ export default function TasksPage() {
                         : todo.completed;
 
             const matchesPriority =
-                priorityFilter === 'all' ? true : todo.priority === priorityFilter;
+                selectedPriorities.length === 0
+                    ? true
+                    : selectedPriorities.includes(todo.priority);
 
             const matchesSearch =
                 normalizedSearch.length === 0
@@ -63,7 +73,23 @@ export default function TasksPage() {
 
             return matchesStatus && matchesPriority && matchesSearch;
         });
-    }, [todos, filter, priorityFilter, search]);
+
+        return [...filtered].sort((a, b) => {
+            if (sortType === 'date-asc') {
+                return a.dueDate.localeCompare(b.dueDate);
+            }
+
+            if (sortType === 'date-desc') {
+                return b.dueDate.localeCompare(a.dueDate);
+            }
+
+            if (sortType === 'priority') {
+                return getPriorityRank(a.priority) - getPriorityRank(b.priority);
+            }
+
+            return a.title.localeCompare(b.title, 'pl');
+        });
+    }, [todos, filter, selectedPriorities, sortType, search]);
 
     const resetForm = () => {
         setForm(emptyForm);
@@ -110,6 +136,24 @@ export default function TasksPage() {
         resetForm();
     };
 
+    const handleApplyFilters = (payload: {
+        status: FilterType;
+        priorities: Priority[];
+        sort: SortType;
+    }) => {
+        setFilter(payload.status);
+        setSelectedPriorities(payload.priorities);
+        setSortType(payload.sort);
+        setIsFiltersOpen(false);
+    };
+
+    const handleResetFilters = () => {
+        setFilter('all');
+        setSelectedPriorities([]);
+        setSortType('date-asc');
+        setIsFiltersOpen(false);
+    };
+
     return (
         <div className="tasks-page">
             <section className="tasks-toolbar">
@@ -120,16 +164,15 @@ export default function TasksPage() {
                         onChange={setSearch}
                     />
                 </div>
-            </section>
 
-            <nav className="tasks-filters">
-                <FilterBar
-                    activeFilter={filter}
-                    activePriority={priorityFilter}
-                    onFilterChange={setFilter}
-                    onPriorityChange={setPriorityFilter}
-                />
-            </nav>
+                <button
+                    type="button"
+                    className="tasks-filters-button"
+                    onClick={() => setIsFiltersOpen(true)}
+                >
+                    Filtry i sortowanie
+                </button>
+            </section>
 
             <section className="tasks-heading">
                 <h1>Moje zadania</h1>
@@ -138,6 +181,38 @@ export default function TasksPage() {
                     Aktywne: <strong>{activeCount}</strong> / Wszystkie:{' '}
                     <strong>{todos.length}</strong>
                 </div>
+            </section>
+
+            <section className="tasks-applied-row">
+        <span className="tasks-chip">
+          Status: {filter === 'all' ? 'Wszystkie' : filter === 'active' ? 'Aktywne' : 'Ukończone'}
+        </span>
+
+                <span className="tasks-chip">
+          Priorytet:{' '}
+                    {selectedPriorities.length === 0
+                        ? 'Wszystkie'
+                        : selectedPriorities
+                            .map((priority) =>
+                                priority === 'high'
+                                    ? 'Wysoki'
+                                    : priority === 'medium'
+                                        ? 'Średni'
+                                        : 'Niski'
+                            )
+                            .join(', ')}
+        </span>
+
+                <span className="tasks-chip">
+          Sortowanie:{' '}
+                    {sortType === 'date-asc'
+                        ? 'Data rosnąco'
+                        : sortType === 'date-desc'
+                            ? 'Data malejąco'
+                            : sortType === 'priority'
+                                ? 'Priorytet'
+                                : 'Alfabetycznie'}
+        </span>
             </section>
 
             <section className="tasks-list">
@@ -165,6 +240,18 @@ export default function TasksPage() {
                     onClick={openAddPanel}
                 />
             </div>
+
+            <FiltersDrawer
+                isOpen={isFiltersOpen}
+                todos={todos}
+                appliedStatus={filter}
+                appliedPriorities={selectedPriorities}
+                appliedSort={sortType}
+                search={search}
+                onClose={() => setIsFiltersOpen(false)}
+                onApply={handleApplyFilters}
+                onReset={handleResetFilters}
+            />
 
             {isFormOpen && (
                 <div className="tasks-overlay" onClick={closePanel}>
