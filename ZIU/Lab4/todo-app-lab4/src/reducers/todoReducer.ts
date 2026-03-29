@@ -6,24 +6,37 @@ export function todoReducer(state: Todo[], action: TodoAction): Todo[] {
             return [
                 {
                     id: crypto.randomUUID(),
-                    title: action.payload,
+                    title: action.payload.title,
+                    description: action.payload.description,
                     completed: false,
                     createdAt: new Date(),
+                    dueDate: action.payload.dueDate,
+                    priority: action.payload.priority,
                 },
                 ...state,
             ];
 
         case 'TOGGLE':
-            return state.map((t) =>
-                t.id === action.payload ? { ...t, completed: !t.completed } : t
+            return state.map((todo) =>
+                todo.id === action.payload
+                    ? { ...todo, completed: !todo.completed }
+                    : todo
             );
 
         case 'DELETE':
-            return state.filter((t) => t.id !== action.payload);
+            return state.filter((todo) => todo.id !== action.payload);
 
         case 'EDIT':
-            return state.map((t) =>
-                t.id === action.payload.id ? { ...t, title: action.payload.title } : t
+            return state.map((todo) =>
+                todo.id === action.payload.id
+                    ? {
+                        ...todo,
+                        title: action.payload.title,
+                        description: action.payload.description,
+                        dueDate: action.payload.dueDate,
+                        priority: action.payload.priority,
+                    }
+                    : todo
             );
 
         default:

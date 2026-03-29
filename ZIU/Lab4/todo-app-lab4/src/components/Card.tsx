@@ -1,17 +1,59 @@
 import './Card.css';
+import type { Todo } from '../types/todo.types';
 
 interface CardProps {
-    children: React.ReactNode;
-    title?: string;
+    todo: Todo;
+    onToggle: (id: string) => void;
+    onOpen: (id: string) => void;
 }
 
-export function Card({ children, title }: CardProps) {
+function getPriorityLabel(priority: Todo['priority']) {
+    if (priority === 'high') return 'Wysoki';
+    if (priority === 'medium') return 'Średni';
+    return 'Niski';
+}
+
+export function Card({ todo, onToggle, onOpen }: CardProps) {
     return (
-        <div className="card">
-            {title && <h3 className="card-title">{title}</h3>}
-            <div className="card-content">
-                {children}
+        <article
+            className={`task-card ${todo.completed ? 'is-completed' : ''}`}
+            onClick={() => onOpen(todo.id)}
+        >
+            <div className="task-card-left">
+                <button
+                    type="button"
+                    className={`task-checkbox ${todo.completed ? 'checked' : ''}`}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onToggle(todo.id);
+                    }}
+                    aria-label={
+                        todo.completed
+                            ? 'Oznacz jako nieukończone'
+                            : 'Oznacz jako ukończone'
+                    }
+                >
+                    {todo.completed ? '✓' : ''}
+                </button>
+
+                <div className="task-copy">
+                    <h3 className={`task-title ${todo.completed ? 'completed' : ''}`}>
+                        {todo.title}
+                    </h3>
+                    <p className="task-description">
+                        {todo.description || 'Brak opisu zadania'}
+                    </p>
+                </div>
             </div>
-        </div>
+
+            <div className="task-card-right">
+        <span className={`priority-badge priority-${todo.priority}`}>
+          {getPriorityLabel(todo.priority)}
+        </span>
+                <span className="task-date">
+          {todo.dueDate ? todo.dueDate : 'Brak terminu'}
+        </span>
+            </div>
+        </article>
     );
 }

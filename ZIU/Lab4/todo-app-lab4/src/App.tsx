@@ -1,72 +1,59 @@
-import { useReducer, useState } from 'react';
-import { todoReducer } from './reducers/todoReducer';
-import { ThemeProvider } from './context/ThemeProvider';
-import { useTheme } from "./context/useTheme";
-import { Card } from './components/Card';
-import { Button } from './components/Button';
-import { Input } from './components/Input';
-import { TodoList } from './components/TodoList';
+import { NavLink, Navigate, Route, Routes } from 'react-router-dom';
+import TasksPage from './pages/TasksPage';
+import TaskDetailsPage from './pages/TaskDetailsPage';
+import ProfilePage from './pages/ProfilePage';
+import SettingsPage from './pages/SettingsPage';
 import './App.css';
 
-function AppContent() {
-  const [taskTitle, setTaskTitle] = useState('');
-  const { theme, setTheme } = useTheme();
-
-  return (
-      <div className="dashboard-layout">
-        <header className="navbar">
-          <div className="logo-box">LOGO</div>
-          <div className="nav-links">
-            <div className="nav-item"></div>
-            <div className="nav-item"></div>
-            <div className="nav-item"></div>
-          </div>
-          <div className="nav-right">
-            <Button
-                label={theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-                variant="ghost"
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            />
-            <div className="avatar-circle"></div>
-          </div>
-        </header>
-
-        <section className="hero-section">
-          <div className="hero-h1-placeholder"></div>
-          <div className="hero-body-placeholders">
-            <div className="hero-line-1"></div>
-            <div className="hero-line-2"></div>
-          </div>
-          <Button label="Primary Button" variant="primary" size="large" />
-        </section>
-
-        <main className="main-content">
-          <div className="grid-cards">
-            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
-            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
-            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
-            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
-            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
-            <Card><div className="card-title-skeleton"></div><div className="card-body-skeleton"></div></Card>
-          </div>
-        </main>
-
-        <footer className="footer">
-          <div className="footer-links">
-            <div className="footer-item"></div>
-            <div className="footer-item"></div>
-            <div className="footer-item"></div>
-          </div>
-          <div className="version-text">version 1.0</div>
-        </footer>
-      </div>
-  );
-}
-
 export default function App() {
-  return (
-      <ThemeProvider>
-        <AppContent />
-      </ThemeProvider>
-  );
+    return (
+        <div className="app-shell">
+            <header className="app-header">
+                <div className="header-content">
+                    <div className="logo-box">LOGO</div>
+
+                    <nav className="top-nav desktop-only">
+                        <NavLink
+                            to="/tasks"
+                            className={({ isActive }) =>
+                                isActive ? 'top-nav-link active' : 'top-nav-link'
+                            }
+                        >
+                            Zadania
+                        </NavLink>
+
+                        <NavLink
+                            to="/profile"
+                            className={({ isActive }) =>
+                                isActive ? 'top-nav-link active' : 'top-nav-link'
+                            }
+                        >
+                            Profil
+                        </NavLink>
+
+                        <NavLink
+                            to="/settings"
+                            className={({ isActive }) =>
+                                isActive ? 'top-nav-link active' : 'top-nav-link'
+                            }
+                        >
+                            Ustawienia
+                        </NavLink>
+                    </nav>
+
+                    <div className="header-avatar" />
+                </div>
+            </header>
+
+            <main className="page-container">
+                <Routes>
+                    <Route path="/" element={<Navigate to="/tasks" replace />} />
+                    <Route path="/tasks" element={<TasksPage />} />
+                    <Route path="/tasks/:id" element={<TaskDetailsPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                </Routes>
+            </main>
+        </div>
+    );
 }

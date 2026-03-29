@@ -2,8 +2,16 @@ import './Button.css';
 
 interface ButtonProps {
     label: string;
-    variant?: 'primary' | 'secondary' | 'ghost' | 'disabled';
-    size?: 'medium' | 'large';
+    variant?:
+        | 'primary'
+        | 'secondary'
+        | 'ghost'
+        | 'danger'
+        | 'chip'
+        | 'chip-active'
+        | 'fab'
+        | 'disabled';
+    size?: 'small' | 'medium' | 'large';
     onClick?: () => void;
     type?: 'button' | 'submit';
 }
@@ -13,14 +21,16 @@ export function Button({
                            variant = 'primary',
                            size = 'medium',
                            onClick,
-                           type = 'button'
+                           type = 'button',
                        }: ButtonProps) {
+    const isDisabled = variant === 'disabled';
+
     return (
         <button
             type={type}
             className={`btn btn-${variant} btn-${size}`}
-            onClick={variant === 'disabled' ? undefined : onClick}
-            disabled={variant === 'disabled'}
+            onClick={isDisabled ? undefined : onClick}
+            disabled={isDisabled}
         >
             {label}
         </button>

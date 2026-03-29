@@ -6,45 +6,45 @@
 }
 
 .input-label {
-    font: var(--font-h5);
-    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    color: #555555;
 }
 
 .input-field {
     width: 100%;
+    min-height: 48px;
+    border-radius: 10px;
+    border: 1px solid #cfcfcf;
+    background: #ffffff;
     padding: 12px 16px;
-    border-radius: 8px;
-    background-color: var(--color-background);
-    color: var(--color-text);
-    font: var(--font-body1);
-    transition: var(--transition);
-    border: 1px solid var(--color-border);
+    font-size: 14px;
+    color: #333333;
+    transition: 0.2s ease;
+    resize: vertical;
 }
 
-.input-field:hover {
-    border-color: #BEBEBE;
+.input-field::placeholder {
+    color: #888888;
 }
 
 .input-field:focus {
     outline: none;
-    border-color: var(--color-primary);
-    border-width: 2px;
-    padding: 11px 15px;
+    border-color: #999999;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
 .state-error .input-field {
-    border-color: var(--color-error);
-    border-width: 2px;
-    padding: 11px 15px;
+    border-color: #dc2626;
 }
 
 .state-disabled .input-field {
-    background-color: var(--color-surface);
+    background: #f1f1f1;
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
 .helper-text {
-    font: var(--font-caption);
-    color: var(--color-error);
+    font-size: 12px;
+    color: #dc2626;
 }
