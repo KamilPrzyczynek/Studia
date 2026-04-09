@@ -2,11 +2,21 @@
   box-sizing: border-box;
 }
 
+:root {
+  --app-page-bg: #ffffff;
+  --app-header-bg: #ffffff;
+  --app-surface: #fafafa;
+  --app-border: #dadada;
+  --app-text: #333333;
+  --app-muted: #666666;
+}
+
 html,
 body,
 #root {
   margin: 0;
-  min-height: 100%;
+  width: 100%;
+  min-height: 100vh;
   font-family: Arial, sans-serif;
   background: #ffffff;
   color: #333333;
@@ -30,7 +40,10 @@ select {
 
 .app-shell {
   min-height: 100vh;
+  width: 100%;
   background: var(--app-page-bg);
+  display: flex;
+  flex-direction: column;
 }
 
 .app-header {
@@ -38,14 +51,16 @@ select {
   top: 0;
   z-index: 60;
   height: 88px;
+  width: 100%;
   background: var(--app-header-bg);
   border-bottom: 1px solid var(--app-border);
 }
 
 .header-content {
-  max-width: 1440px;
+  width: 100%;
+  max-width: none;
   height: 100%;
-  margin: 0 auto;
+  margin: 0;
   padding: 0 32px;
   display: flex;
   align-items: center;
@@ -97,6 +112,19 @@ select {
   font-weight: 700;
 }
 
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.header-user-name {
+  color: #666666;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .header-avatar {
   width: 44px;
   height: 44px;
@@ -105,10 +133,20 @@ select {
   flex-shrink: 0;
 }
 
+.header-logout-button {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid #d0d0d0;
+  background: #ffffff;
+  color: #555555;
+  cursor: pointer;
+}
+
 .page-container {
-  max-width: 1440px;
-  margin: 0 auto;
   width: 100%;
+  max-width: none;
+  flex: 1;
 }
 
 .placeholder-view {
@@ -136,40 +174,56 @@ select {
   display: flex;
 }
 
-@media (max-width: 640px) {
-  .app-header {
-    height: 76px;
-  }
-
-  .header-content {
-    padding: 0 16px;
-  }
-
-  .logo-box {
-    width: 92px;
-    height: 36px;
-    font-size: 14px;
-  }
-
-  .header-avatar {
-    width: 36px;
-    height: 36px;
-  }
-
-  .desktop-only {
-    display: none;
-  }
-
-  .placeholder-view {
-    margin: 16px;
-    padding: 20px;
-    min-height: 320px;
-  }
-
-  .placeholder-view h1 {
-    font-size: 24px;
-  }
+/* DARK MODE - global */
+body[data-app-theme='dark'] {
+  --app-page-bg: #111111;
+  --app-header-bg: #181818;
+  --app-surface: #1d1d1d;
+  --app-border: #303030;
+  --app-text: #f0f0f0;
+  --app-muted: #b5b5b5;
 }
+
+body[data-app-theme='dark'] .app-shell {
+  background: var(--app-page-bg);
+  color: var(--app-text);
+}
+
+body[data-app-theme='dark'] .app-header {
+  background: var(--app-header-bg);
+  border-color: var(--app-border);
+}
+
+body[data-app-theme='dark'] .top-nav-link {
+  color: var(--app-muted);
+}
+
+body[data-app-theme='dark'] .top-nav-link:hover {
+  background: #232323;
+}
+
+body[data-app-theme='dark'] .top-nav-link.active {
+  background: #2a2a2a;
+  color: var(--app-text);
+}
+
+body[data-app-theme='dark'] .header-user-name {
+  color: var(--app-muted);
+}
+
+body[data-app-theme='dark'] .header-logout-button {
+  background: #232323;
+  color: #f0f0f0;
+  border-color: #3a3a3a;
+}
+
+body[data-app-theme='dark'] .logo-box,
+body[data-app-theme='dark'] .header-avatar {
+  background: #2a2a2a;
+  color: #dddddd;
+}
+
+/* PRZYWRÓCONE stare dark mode dla HomePage */
 body[data-app-theme='dark'] .home-page {
   background: var(--app-page-bg) !important;
   color: var(--app-text) !important;
@@ -220,4 +274,46 @@ body[data-app-theme='dark'] .home-logo-box,
 body[data-app-theme='dark'] .home-avatar {
   background: #2a2a2a !important;
   color: #dddddd !important;
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    height: 76px;
+  }
+
+  .header-content {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .logo-box {
+    width: 92px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .header-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .app-header-right {
+    gap: 8px;
+  }
+
+  .header-user-name,
+  .header-logout-button,
+  .desktop-only {
+    display: none;
+  }
+
+  .placeholder-view {
+    margin: 16px;
+    padding: 20px;
+    min-height: 320px;
+  }
+
+  .placeholder-view h1 {
+    font-size: 24px;
+  }
 }

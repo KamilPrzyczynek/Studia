@@ -1,367 +1,263 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 .home-page {
     min-height: 100vh;
-    background: var(--app-page-bg);
-    color: var(--app-text);
+    background: #ffffff;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .home-header {
-    height: 88px;
-    background: var(--app-header-bg);
-    border-bottom: 1px solid var(--app-border);
+    min-height: 88px;
+    padding: 16px 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    padding: 0 40px;
+    gap: 20px;
+    border-bottom: 1px solid #d9d9d9;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .home-logo-box {
     width: 132px;
     height: 40px;
-    border-radius: 10px;
     background: #d9d9d9;
     color: #555555;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
     font-weight: 700;
     flex-shrink: 0;
 }
 
 .home-nav {
     display: flex;
+    gap: clamp(10px, 2vw, 32px);
     align-items: center;
-    gap: 28px;
-    margin-left: auto;
-    margin-right: auto;
+    flex-wrap: wrap;
+    min-width: 0;
 }
 
 .home-nav-link {
+    background: none;
     border: none;
-    background: transparent;
-    color: var(--app-muted);
-    font-size: 14px;
-    font-weight: 600;
     cursor: pointer;
-    padding: 0;
+    font-size: 14px;
+    color: #8a8a8a;
+    font-weight: 500;
+    padding: 8px;
+    white-space: nowrap;
+}
+
+.home-nav-link-active {
+    color: #333333;
+    font-weight: 700;
 }
 
 .home-header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.home-user-badge {
+    padding: 8px 16px;
+    background: #f1f1f1;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #555555;
+    white-space: nowrap;
 }
 
 .home-login-button,
 .home-register-button {
     height: 44px;
+    padding: 0 20px;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .home-login-button {
-    width: 120px;
-    border: 1px solid #d0d0d0;
     background: #ffffff;
+    border: 1px solid #d0d0d0;
     color: #555555;
 }
 
 .home-register-button {
-    width: 132px;
-    border: none;
     background: #333333;
+    border: none;
     color: #ffffff;
 }
 
 .home-main {
     flex: 1;
-    padding: 32px 40px 40px;
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .home-hero {
+    background: #fafafa;
+    border: 1px solid #dadada;
+    border-radius: 20px;
+    padding: clamp(24px, 5vw, 56px);
+    margin-bottom: 40px;
     width: 100%;
-    min-height: 264px;
-    border-radius: 24px;
-    border: 1px solid var(--app-border);
-    background: var(--app-surface);
-    padding: 48px 56px;
-    margin-bottom: 48px;
-    display: flex;
-    align-items: center;
-}
-
-.home-hero-copy {
-    max-width: 720px;
 }
 
 .home-hero-copy h1 {
-    margin: 0 0 22px;
-    font-size: 36px;
+    font-size: clamp(24px, 4vw, 36px);
+    color: #333333;
+    margin-bottom: 16px;
     line-height: 1.2;
-    color: var(--app-text);
 }
 
 .home-hero-copy p {
-    margin: 0 0 36px;
     font-size: 16px;
-    line-height: 1.7;
-    color: var(--app-muted);
+    color: #777777;
+    margin-bottom: 32px;
+    line-height: 1.6;
 }
 
 .home-hero-actions {
     display: flex;
+    gap: 16px;
     flex-wrap: wrap;
-    gap: 20px;
 }
 
 .home-primary-button,
-.home-secondary-button,
-.home-primary-small-button,
-.home-outline-small-button,
-.home-outline-profile-button {
-    cursor: pointer;
+.home-secondary-button {
+    height: 52px;
+    min-width: 180px;
+    border-radius: 12px;
     font-weight: 700;
-    transition: 0.2s ease;
+    cursor: pointer;
+    max-width: 100%;
 }
 
 .home-primary-button {
-    width: 220px;
-    height: 52px;
-    border: none;
-    border-radius: 14px;
     background: #333333;
     color: #ffffff;
-    font-size: 16px;
+    border: none;
 }
 
 .home-secondary-button {
-    width: 180px;
-    height: 52px;
-    border-radius: 14px;
-    border: 1px solid #d0d0d0;
     background: #ffffff;
+    border: 1px solid #d0d0d0;
     color: #555555;
-    font-size: 16px;
-}
-
-.home-cards-section h2 {
-    margin: 0 0 24px;
-    font-size: 24px;
-    color: var(--app-text);
 }
 
 .home-cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 50px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    width: 100%;
 }
 
 .home-card {
-    min-height: 210px;
-    border-radius: 20px;
-    border: 1px solid var(--app-border);
-    background: #f7f7f7;
-    padding: 40px 36px 28px;
+    background: #ffffff;
+    border: 1px solid #dadada;
+    border-radius: 16px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .home-card h3 {
-    margin: 0 0 18px;
-    font-size: 22px;
-    color: var(--app-text);
+    margin-bottom: 12px;
+    font-size: 20px;
 }
 
 .home-card p {
-    margin: 0 0 28px;
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--app-muted);
     flex: 1;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #777777;
+}
+
+.home-primary-small-button,
+.home-outline-small-button,
+.home-outline-profile-button {
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    width: fit-content;
+    max-width: 100%;
 }
 
 .home-primary-small-button {
-    width: 132px;
-    height: 40px;
-    border: none;
-    border-radius: 12px;
     background: #333333;
     color: #ffffff;
-    font-size: 14px;
+    border: none;
 }
 
-.home-outline-small-button {
-    width: 132px;
-    height: 40px;
-    border-radius: 12px;
-    border: 1px solid #d0d0d0;
-    background: #ffffff;
-    color: #555555;
-    font-size: 14px;
-}
-
+.home-outline-small-button,
 .home-outline-profile-button {
-    width: 170px;
-    height: 40px;
-    border-radius: 12px;
-    border: 1px solid #d0d0d0;
     background: #ffffff;
+    border: 1px solid #d0d0d0;
     color: #555555;
-    font-size: 14px;
 }
 
-.home-footer {
-    min-height: 84px;
-    background: var(--app-header-bg);
-    border-top: 1px solid var(--app-border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 120px;
-}
-
-.home-footer-links {
-    display: flex;
-    align-items: center;
-    gap: 36px;
-    color: #777777;
-    font-size: 12px;
-}
-
-.home-footer-version {
-    color: #777777;
-    font-size: 12px;
-}
-
-@media (max-width: 1100px) {
-    .home-cards-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .home-card {
-        min-height: auto;
-    }
-}
-
-@media (max-width: 640px) {
+@media (max-width: 900px) {
     .home-header {
-        height: auto;
-        min-height: 76px;
-        padding: 12px 16px;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .home-logo-box {
-        width: 92px;
-        height: 36px;
-        font-size: 14px;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .home-nav {
-        order: 3;
         width: 100%;
-        justify-content: space-between;
-        margin: 0;
-        gap: 12px;
-    }
-
-    .home-nav-link {
-        font-size: 13px;
+        justify-content: flex-start;
+        padding: 10px 0;
     }
 
     .home-header-actions {
         width: 100%;
-        justify-content: flex-end;
+        justify-content: flex-start;
     }
 
-    .home-login-button,
-    .home-register-button {
-        height: 40px;
-        font-size: 13px;
+    .home-main {
+        padding: 24px;
     }
+}
 
-    .home-login-button {
-        width: 112px;
-    }
-
-    .home-register-button {
-        width: 120px;
-    }
-
+@media (max-width: 640px) {
     .home-main {
         padding: 16px;
     }
 
-    .home-hero {
-        min-height: auto;
-        padding: 24px 20px;
-        margin-bottom: 28px;
+    .home-header {
+        padding: 16px;
     }
 
-    .home-hero-copy h1 {
-        font-size: 26px;
-        line-height: 1.2;
-    }
-
-    .home-hero-copy p {
-        font-size: 14px;
-        margin-bottom: 24px;
-    }
-
-    .home-hero-actions {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .home-primary-button,
-    .home-secondary-button {
+    .home-hero-actions button {
         width: 100%;
-    }
-
-    .home-cards-section h2 {
-        font-size: 20px;
-        margin-bottom: 16px;
-    }
-
-    .home-cards-grid {
-        gap: 16px;
+        min-width: 0;
     }
 
     .home-card {
-        padding: 24px 20px 20px;
-    }
-
-    .home-card h3 {
-        font-size: 20px;
-    }
-
-    .home-primary-small-button,
-    .home-outline-small-button,
-    .home-outline-profile-button {
         width: 100%;
     }
 
-    .home-footer {
-        padding: 16px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+    .home-cards-grid {
+        grid-template-columns: 1fr;
     }
-
-    .home-footer-links {
-        gap: 18px;
-        flex-wrap: wrap;
-    }
-}
-.home-nav-link-active {
-    color: var(--app-text);
-    font-weight: 700;
 }

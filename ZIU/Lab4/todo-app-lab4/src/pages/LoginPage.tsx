@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import './AuthPages.css';
+import { getActiveUser } from '../utils/auth';
 
 const USERS_STORAGE_KEY = 'todo-app-users';
 const ACTIVE_USER_KEY = 'todo-app-active-user';
@@ -13,10 +14,18 @@ interface StoredUser {
 
 export default function LoginPage() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const activeUser = getActiveUser();
+    const redirectTo = (location.state as { from?: string } | null)?.from || '/';
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    if (activeUser) {
+        return <Navigate to="/" replace />;
+    }
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,7 +53,7 @@ export default function LoginPage() {
         );
 
         setErrorMessage('');
-        navigate('/');
+        navigate(redirectTo, { replace: true });
     };
 
     return (

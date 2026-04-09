@@ -9,9 +9,10 @@ export function todoReducer(state: Todo[], action: TodoAction): Todo[] {
                     title: action.payload.title,
                     description: action.payload.description,
                     completed: false,
-                    createdAt: new Date(),
+                    createdAt: new Date().toISOString(),
                     dueDate: action.payload.dueDate,
                     priority: action.payload.priority,
+                    ownerEmail: action.payload.ownerEmail,
                 },
                 ...state,
             ];

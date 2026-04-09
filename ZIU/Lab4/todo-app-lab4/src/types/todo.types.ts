@@ -7,9 +7,10 @@ export interface Todo {
     title: string;
     description: string;
     completed: boolean;
-    createdAt: Date;
+    createdAt: string;
     dueDate: string;
     priority: Priority;
+    ownerEmail: string;
 }
 
 export type TodoAction =
@@ -20,6 +21,7 @@ export type TodoAction =
         description: string;
         dueDate: string;
         priority: Priority;
+        ownerEmail: string;
     };
 }
     | {

@@ -1,11 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
+import { getActiveUser, logoutUser } from '../utils/auth';
 
 export default function HomePage() {
     const navigate = useNavigate();
+    const activeUser = getActiveUser();
+
+    const handleLogout = () => {
+        logoutUser();
+        navigate('/login');
+    };
 
     return (
-        <section className="home-page">
+        <div className="home-page">
             <header className="home-header">
                 <div className="home-logo-box">LOGO</div>
 
@@ -17,7 +24,6 @@ export default function HomePage() {
                     >
                         Start
                     </button>
-
                     <button
                         type="button"
                         className="home-nav-link"
@@ -25,7 +31,6 @@ export default function HomePage() {
                     >
                         Dashboard
                     </button>
-
                     <button
                         type="button"
                         className="home-nav-link"
@@ -36,21 +41,35 @@ export default function HomePage() {
                 </nav>
 
                 <div className="home-header-actions">
-                    <button
-                        type="button"
-                        className="home-login-button"
-                        onClick={() => navigate('/login')}
-                    >
-                        Logowanie
-                    </button>
-
-                    <button
-                        type="button"
-                        className="home-register-button"
-                        onClick={() => navigate('/register')}
-                    >
-                        Rejestracja
-                    </button>
+                    {activeUser ? (
+                        <>
+                            <span className="home-user-badge">Witaj, {activeUser.firstName}</span>
+                            <button
+                                type="button"
+                                className="home-register-button"
+                                onClick={handleLogout}
+                            >
+                                Wyloguj
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                type="button"
+                                className="home-login-button"
+                                onClick={() => navigate('/login')}
+                            >
+                                Logowanie
+                            </button>
+                            <button
+                                type="button"
+                                className="home-register-button"
+                                onClick={() => navigate('/register')}
+                            >
+                                Rejestracja
+                            </button>
+                        </>
+                    )}
                 </div>
             </header>
 
@@ -71,11 +90,10 @@ export default function HomePage() {
                             >
                                 Przejdź do dashboardu
                             </button>
-
                             <button
                                 type="button"
                                 className="home-secondary-button"
-                                onClick={() => navigate('/settings')}
+                                onClick={() => navigate('/profile')}
                             >
                                 Zobacz profil
                             </button>
@@ -85,14 +103,10 @@ export default function HomePage() {
 
                 <section className="home-cards-section">
                     <h2>Najważniejsze sekcje aplikacji</h2>
-
                     <div className="home-cards-grid">
                         <article className="home-card">
                             <h3>Dashboard zadań</h3>
-                            <p>
-                                Zarządzaj listą zadań, wyszukuj elementy, filtruj widok i
-                                dodawaj nowe zadania przez panel boczny.
-                            </p>
+                            <p>Zarządzaj listą zadań, wyszukuj elementy i filtruj widok.</p>
                             <button
                                 type="button"
                                 className="home-primary-small-button"
@@ -104,10 +118,7 @@ export default function HomePage() {
 
                         <article className="home-card">
                             <h3>Szczegóły zadania</h3>
-                            <p>
-                                Zobacz opis, komentarze, metadane i przejdź do szczegółów
-                                wybranego zadania na osobnej podstronie.
-                            </p>
+                            <p>Zobacz opis, komentarze i metadane wybranego zadania.</p>
                             <button
                                 type="button"
                                 className="home-outline-small-button"
@@ -119,31 +130,18 @@ export default function HomePage() {
 
                         <article className="home-card">
                             <h3>Profil użytkownika</h3>
-                            <p>
-                                Zarządzaj ustawieniami profilu, preferencjami, motywem oraz
-                                powiadomieniami zapisanymi lokalnie.
-                            </p>
+                            <p>Zarządzaj ustawieniami profilu, motywem i powiadomieniami.</p>
                             <button
                                 type="button"
                                 className="home-outline-profile-button"
                                 onClick={() => navigate('/settings')}
                             >
-                                Profil użytkownika
+                                Ustawienia
                             </button>
                         </article>
                     </div>
                 </section>
             </main>
-
-            <footer className="home-footer">
-                <div className="home-footer-links">
-                    <span>Start</span>
-                    <span>Dashboard</span>
-                    <span>Profil</span>
-                </div>
-
-                <span className="home-footer-version">version 1.0</span>
-            </footer>
-        </section>
+        </div>
     );
 }

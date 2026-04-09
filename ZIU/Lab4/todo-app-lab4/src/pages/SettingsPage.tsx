@@ -1,29 +1,31 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './SettingsPage.css';
+import {
+    getActiveUser,
+    saveActiveUser,
+    type ActiveUser,
+} from '../utils/auth';
+import { UserAvatar } from '../components/UserAvatar';
 
 type AppTheme = 'light' | 'dark';
 
 interface StoredProfileSettings {
-    firstName: string;
-    email: string;
     theme: AppTheme;
     emailNotifications: boolean;
     pushNotifications: boolean;
 }
 
-const STORAGE_KEY = 'todo-app-profile-settings';
+const SETTINGS_STORAGE_KEY = 'todo-app-profile-settings';
 const THEME_KEY = 'todo-app-theme';
 
 const defaultSettings: StoredProfileSettings = {
-    firstName: 'Jan',
-    email: 'jan.kowalski@email.com',
     theme: 'light',
     emailNotifications: true,
     pushNotifications: false,
 };
 
 function readStoredSettings(): StoredProfileSettings {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
 
     if (!raw) {
         return defaultSettings;
@@ -33,8 +35,6 @@ function readStoredSettings(): StoredProfileSettings {
         const parsed = JSON.parse(raw) as Partial<StoredProfileSettings>;
 
         return {
-            firstName: parsed.firstName || defaultSettings.firstName,
-            email: parsed.email || defaultSettings.email,
             theme: parsed.theme === 'dark' ? 'dark' : 'light',
             emailNotifications:
                 typeof parsed.emailNotifications === 'boolean'
@@ -46,7 +46,7 @@ function readStoredSettings(): StoredProfileSettings {
                     : defaultSettings.pushNotifications,
         };
     } catch {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(SETTINGS_STORAGE_KEY);
         return defaultSettings;
     }
 }
@@ -62,11 +62,32 @@ function applyTheme(theme: AppTheme) {
     localStorage.setItem(THEME_KEY, theme);
 }
 
+function getDisplayName(user: ActiveUser | null, firstName: string, lastName: string) {
+    const joined = `${firstName.trim()} ${lastName.trim()}`.trim();
+
+    if (joined) {
+        return joined;
+    }
+
+    if (firstName.trim()) {
+        return firstName.trim();
+    }
+
+    if (user?.email?.trim()) {
+        return user.email.trim();
+    }
+
+    return 'Użytkownik';
+}
+
 export default function SettingsPage() {
+    const activeUser = getActiveUser();
     const initialSettings = readStoredSettings();
 
-    const [firstName, setFirstName] = useState(initialSettings.firstName);
-    const [email, setEmail] = useState(initialSettings.email);
+    const [firstName, setFirstName] = useState(activeUser?.firstName ?? '');
+    const [lastName, setLastName] = useState(activeUser?.lastName ?? '');
+    const [email, setEmail] = useState(activeUser?.email ?? '');
+    const [avatar, setAvatar] = useState(activeUser?.avatar ?? '');
     const [newPassword, setNewPassword] = useState('');
     const [theme, setTheme] = useState<AppTheme>(readStoredTheme());
     const [emailNotifications, setEmailNotifications] = useState(
@@ -77,20 +98,13 @@ export default function SettingsPage() {
     );
     const [savedMessage, setSavedMessage] = useState('');
 
-    const initials = useMemo(() => {
-        const trimmed = firstName.trim();
+    useEffect(() => {
+        applyTheme(theme);
+    }, [theme]);
 
-        if (!trimmed) {
-            return 'JK';
-        }
-
-        return trimmed
-            .split(' ')
-            .map((part) => part[0])
-            .join('')
-            .slice(0, 2)
-            .toUpperCase();
-    }, [firstName]);
+    const displayName = useMemo(() => {
+        return getDisplayName(activeUser, firstName, lastName);
+    }, [activeUser, firstName, lastName]);
 
     const handleThemeToggle = () => {
         const nextTheme: AppTheme = theme === 'light' ? 'dark' : 'light';
@@ -103,19 +117,31 @@ export default function SettingsPage() {
             theme: nextTheme,
         };
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSettings));
+        localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(updatedSettings));
     };
 
     const handleSave = () => {
-        const payload: StoredProfileSettings = {
-            firstName: firstName.trim() || defaultSettings.firstName,
-            email: email.trim() || defaultSettings.email,
+        if (!activeUser) {
+            return;
+        }
+
+        const updatedUser: ActiveUser = {
+            ...activeUser,
+            firstName: firstName.trim() || activeUser.firstName,
+            lastName: lastName.trim(),
+            email: email.trim() || activeUser.email,
+            avatar: avatar.trim(),
+        };
+
+        saveActiveUser(updatedUser);
+
+        const settingsPayload: StoredProfileSettings = {
             theme,
             emailNotifications,
             pushNotifications,
         };
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsPayload));
         applyTheme(theme);
 
         setSavedMessage(
@@ -141,11 +167,17 @@ export default function SettingsPage() {
             <div className="settings-grid">
                 <article className="settings-main-card">
                     <div className="settings-user-row">
-                        <div className="settings-avatar">{initials}</div>
+                        <UserAvatar
+                            firstName={firstName}
+                            lastName={lastName}
+                            email={email}
+                            avatar={avatar}
+                            size="large"
+                        />
 
                         <div className="settings-user-copy">
-                            <h2>{firstName || 'Jan Kowalski'}</h2>
-                            <p>{email || 'jan.kowalski@email.com'}</p>
+                            <h2>{displayName}</h2>
+                            <p>{email || 'brak e-maila'}</p>
                         </div>
                     </div>
 
@@ -161,6 +193,17 @@ export default function SettingsPage() {
                     </div>
 
                     <div className="settings-field-group">
+                        <label htmlFor="profile-last-name">Nazwisko</label>
+                        <input
+                            id="profile-last-name"
+                            type="text"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            placeholder="Kowalski"
+                        />
+                    </div>
+
+                    <div className="settings-field-group">
                         <label htmlFor="profile-email">E-mail</label>
                         <input
                             id="profile-email"
@@ -168,6 +211,17 @@ export default function SettingsPage() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="jan.kowalski@email.com"
+                        />
+                    </div>
+
+                    <div className="settings-field-group">
+                        <label htmlFor="profile-avatar">Link do avatara</label>
+                        <input
+                            id="profile-avatar"
+                            type="text"
+                            value={avatar}
+                            onChange={(e) => setAvatar(e.target.value)}
+                            placeholder="https://..."
                         />
                     </div>
 
@@ -206,9 +260,7 @@ export default function SettingsPage() {
 
                         <button
                             type="button"
-                            className={`theme-toggle-button ${
-                                theme === 'dark' ? 'is-dark' : ''
-                            }`}
+                            className={`theme-toggle-button ${theme === 'dark' ? 'is-dark' : ''}`}
                             onClick={handleThemeToggle}
                             aria-label="Przełącz motyw"
                         >

@@ -1,4 +1,4 @@
-import { useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
@@ -21,6 +21,15 @@ interface FormState {
     priority: Priority;
 }
 
+interface ActiveUser {
+    id?: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+}
+
+const ACTIVE_USER_KEY = 'todo-app-active-user';
+
 const emptyForm: FormState = {
     title: '',
     description: '',
@@ -34,10 +43,73 @@ function getPriorityRank(priority: Priority) {
     return 2;
 }
 
+function readActiveUser(): ActiveUser | null {
+    const raw = localStorage.getItem(ACTIVE_USER_KEY);
+
+    if (!raw) {
+        return null;
+    }
+
+    try {
+        return JSON.parse(raw) as ActiveUser;
+    } catch {
+        localStorage.removeItem(ACTIVE_USER_KEY);
+        return null;
+    }
+}
+
+function getTasksStorageKey(user: ActiveUser | null) {
+    const email = user?.email?.trim().toLowerCase();
+
+    if (!email) {
+        return 'todo-app-tasks-guest';
+    }
+
+    return `todo-app-tasks-${email}`;
+}
+
+function normalizeSeedTodos(user: ActiveUser | null): Todo[] {
+    const email = user?.email?.trim().toLowerCase() || '';
+
+    return mockTodos.map((todo, index) => ({
+        ...todo,
+        id: `${email || 'guest'}-seed-${index + 1}`,
+        ownerEmail: email,
+    }));
+}
+
+function loadUserTodos(user: ActiveUser | null): Todo[] {
+    const storageKey = getTasksStorageKey(user);
+    const saved = localStorage.getItem(storageKey);
+
+    if (saved) {
+        try {
+            return JSON.parse(saved) as Todo[];
+        } catch {
+            localStorage.removeItem(storageKey);
+        }
+    }
+
+    const starterTodos = normalizeSeedTodos(user);
+    localStorage.setItem(storageKey, JSON.stringify(starterTodos));
+    return starterTodos;
+}
+
+function saveUserTodos(user: ActiveUser | null, todos: Todo[]) {
+    const storageKey = getTasksStorageKey(user);
+    localStorage.setItem(storageKey, JSON.stringify(todos));
+}
+
 export default function TasksPage() {
     const navigate = useNavigate();
+    const activeUser = readActiveUser();
 
-    const [todos, dispatch] = useReducer(todoReducer, mockTodos as Todo[]);
+    const [todos, dispatch] = useReducer(
+        todoReducer,
+        [],
+        () => loadUserTodos(activeUser)
+    );
+
     const [filter, setFilter] = useState<FilterType>('all');
     const [selectedPriorities, setSelectedPriorities] = useState<Priority[]>([]);
     const [sortType, setSortType] = useState<SortType>('date-asc');
@@ -46,6 +118,10 @@ export default function TasksPage() {
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [form, setForm] = useState<FormState>(emptyForm);
     const [formError, setFormError] = useState('');
+
+    useEffect(() => {
+        saveUserTodos(activeUser, todos);
+    }, [todos, activeUser]);
 
     const activeCount = todos.filter((todo) => !todo.completed).length;
 
@@ -129,6 +205,7 @@ export default function TasksPage() {
                 description: form.description.trim(),
                 dueDate: form.dueDate,
                 priority: form.priority,
+                ownerEmail: activeUser?.email?.trim().toLowerCase() || '',
             },
         });
 
@@ -176,7 +253,7 @@ export default function TasksPage() {
 
             <section className="tasks-heading">
                 <h1>Moje zadania</h1>
-                <p>Lista zadań z filtrowaniem i priorytetami</p>
+                <p>Lista zadań zalogowanego użytkownika</p>
                 <div className="tasks-counter">
                     Aktywne: <strong>{activeCount}</strong> / Wszystkie:{' '}
                     <strong>{todos.length}</strong>

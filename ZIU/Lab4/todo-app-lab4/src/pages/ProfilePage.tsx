@@ -1,29 +1,41 @@
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
+import { getActiveUser, logoutUser, type ActiveUser } from '../utils/auth';
+import { UserAvatar } from '../components/UserAvatar';
 
 type AppTheme = 'light' | 'dark';
 
-const ACTIVE_USER_KEY = 'todo-app-active-user';
 const THEME_KEY = 'todo-app-theme';
 
-interface ActiveUser {
-    firstName: string;
-    email: string;
+interface TaskItem {
+    id: string | number;
+    title?: string;
+    description?: string;
+    completed?: boolean;
+    done?: boolean;
+    status?: string;
+    ownerEmail?: string;
+    userEmail?: string;
+    email?: string;
+    assignedTo?: string;
+    assignedUserEmail?: string;
+    userId?: string;
+    ownerId?: string;
 }
 
-function readActiveUser(): ActiveUser | null {
-    const raw = localStorage.getItem(ACTIVE_USER_KEY);
+function readJson<T>(key: string, fallback: T): T {
+    const raw = localStorage.getItem(key);
 
     if (!raw) {
-        return null;
+        return fallback;
     }
 
     try {
-        return JSON.parse(raw) as ActiveUser;
+        return JSON.parse(raw) as T;
     } catch {
-        localStorage.removeItem(ACTIVE_USER_KEY);
-        return null;
+        localStorage.removeItem(key);
+        return fallback;
     }
 }
 
@@ -37,24 +49,117 @@ function applyTheme(theme: AppTheme) {
     localStorage.setItem(THEME_KEY, theme);
 }
 
+function getTasksStorageKey(user: ActiveUser | null): string {
+    const email = user?.email?.trim().toLowerCase();
+
+    if (!email) {
+        return 'todo-app-tasks-guest';
+    }
+
+    return `todo-app-tasks-${email}`;
+}
+
+function readTasksForUser(user: ActiveUser | null): TaskItem[] {
+    const storageKey = getTasksStorageKey(user);
+    return readJson<TaskItem[]>(storageKey, []);
+}
+
+function getUserDisplayName(user: ActiveUser | null): string {
+    if (!user) {
+        return 'Użytkownik';
+    }
+
+    const firstName = user.firstName?.trim() ?? '';
+    const lastName = user.lastName?.trim() ?? '';
+    const joined = `${firstName} ${lastName}`.trim();
+
+    if (joined) {
+        return joined;
+    }
+
+    if (firstName) {
+        return firstName;
+    }
+
+    if (user.email?.trim()) {
+        return user.email.trim();
+    }
+
+    return 'Użytkownik';
+}
+
+function isTaskCompleted(task: TaskItem): boolean {
+    if (typeof task.completed === 'boolean') {
+        return task.completed;
+    }
+
+    if (typeof task.done === 'boolean') {
+        return task.done;
+    }
+
+    if (typeof task.status === 'string') {
+        const normalized = task.status.toLowerCase();
+
+        return (
+            normalized === 'done' ||
+            normalized === 'completed' ||
+            normalized === 'finished' ||
+            normalized === 'ukończone' ||
+            normalized === 'zakończone'
+        );
+    }
+
+    return false;
+}
+
 export default function ProfilePage() {
     const navigate = useNavigate();
+    const location = useLocation();
+
     const [theme, setTheme] = useState<AppTheme>(readTheme());
+    const [refreshKey, setRefreshKey] = useState(0);
 
-    const activeUser = readActiveUser();
+    useEffect(() => {
+        applyTheme(readTheme());
+    }, []);
 
-    const fullName = activeUser?.firstName?.trim()
-        ? `${activeUser.firstName} Kowalski`
-        : 'Jan Kowalski';
+    useEffect(() => {
+        const refreshProfileData = () => {
+            setRefreshKey((prev) => prev + 1);
+        };
 
-    const initials = useMemo(() => {
-        return fullName
-            .split(' ')
-            .map((part) => part[0])
-            .join('')
-            .slice(0, 2)
-            .toUpperCase();
-    }, [fullName]);
+        window.addEventListener('storage', refreshProfileData);
+        window.addEventListener('focus', refreshProfileData);
+
+        return () => {
+            window.removeEventListener('storage', refreshProfileData);
+            window.removeEventListener('focus', refreshProfileData);
+        };
+    }, []);
+
+    const activeUser = useMemo(() => {
+        return getActiveUser();
+    }, [location.pathname, refreshKey]);
+
+    const tasks = useMemo(() => {
+        return readTasksForUser(activeUser);
+    }, [activeUser, location.pathname, refreshKey]);
+
+    const fullName = useMemo(() => {
+        return getUserDisplayName(activeUser);
+    }, [activeUser]);
+
+    const completedTasksCount = useMemo(() => {
+        return tasks.filter(isTaskCompleted).length;
+    }, [tasks]);
+
+    const activeTasksCount = useMemo(() => {
+        return tasks.filter((task) => !isTaskCompleted(task)).length;
+    }, [tasks]);
+
+    const allTasksCount = tasks.length;
+
+    const userRole = activeUser?.role?.trim() || 'Użytkownik';
 
     const handleToggleTheme = () => {
         const nextTheme: AppTheme = theme === 'light' ? 'dark' : 'light';
@@ -63,7 +168,7 @@ export default function ProfilePage() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem(ACTIVE_USER_KEY);
+        logoutUser();
         navigate('/login');
     };
 
@@ -83,11 +188,17 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="profile-header">
-                    <div className="profile-avatar">{initials}</div>
+                    <UserAvatar
+                        firstName={activeUser?.firstName}
+                        lastName={activeUser?.lastName}
+                        email={activeUser?.email}
+                        avatar={activeUser?.avatar}
+                        size="large"
+                    />
 
                     <div className="profile-user-info">
                         <h1>{fullName}</h1>
-                        <span className="profile-role-badge">Projektant UX</span>
+                        <span className="profile-role-badge">{userRole}</span>
                     </div>
                 </div>
 
@@ -99,19 +210,19 @@ export default function ProfilePage() {
                     <div className="profile-stats-grid">
                         <article className="profile-stat-card">
                             <span className="profile-stat-label">Ukończone zadania</span>
-                            <strong className="profile-stat-value">24</strong>
+                            <strong className="profile-stat-value">{completedTasksCount}</strong>
                             <div className="profile-stat-bar" />
                         </article>
 
                         <article className="profile-stat-card">
-                            <span className="profile-stat-label">Aktywne projekty</span>
-                            <strong className="profile-stat-value">5</strong>
+                            <span className="profile-stat-label">Aktywne zadania</span>
+                            <strong className="profile-stat-value">{activeTasksCount}</strong>
                             <div className="profile-stat-bar" />
                         </article>
 
                         <article className="profile-stat-card">
-                            <span className="profile-stat-label">Komentarze</span>
-                            <strong className="profile-stat-value">18</strong>
+                            <span className="profile-stat-label">Wszystkie zadania</span>
+                            <strong className="profile-stat-value">{allTasksCount}</strong>
                             <div className="profile-stat-bar" />
                         </article>
                     </div>
@@ -186,9 +297,7 @@ export default function ProfilePage() {
 
                             <button
                                 type="button"
-                                className={`profile-theme-toggle ${
-                                    theme === 'dark' ? 'is-dark' : ''
-                                }`}
+                                className={`profile-theme-toggle ${theme === 'dark' ? 'is-dark' : ''}`}
                                 onClick={handleToggleTheme}
                                 aria-label="Przełącz motyw aplikacji"
                             >
