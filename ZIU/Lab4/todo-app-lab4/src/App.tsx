@@ -40,7 +40,7 @@ export default function App() {
                                     isActive ? 'top-nav-link active' : 'top-nav-link'
                                 }
                             >
-                                Dashboard
+                                Zadania
                             </NavLink>
 
                             <NavLink

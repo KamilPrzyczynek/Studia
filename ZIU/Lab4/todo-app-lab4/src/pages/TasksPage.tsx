@@ -1,441 +1,176 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/Button';
-import { Input } from '../components/Input';
-import { Card } from '../components/Card';
-import { FiltersDrawer } from '../components/FiltersDrawer';
-import { todoReducer } from '../reducers/todoReducer';
-import { mockTodos } from '../data/mockTodos';
-import type {
-    FilterType,
-    Priority,
-    SortType,
-    Todo,
-} from '../types/todo.types';
-import './TasksPage.css';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import {
+    Box,
+    Fab,
+    ToggleButton,
+    ToggleButtonGroup,
+    Typography,
+} from '@mui/material';
+import { useMemo, useState } from 'react';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
+import TodoInput from '../components/TodoInput';
+import TodoList from '../components/TodoList';
 
-interface FormState {
+type FilterType = 'all' | 'active' | 'completed';
+
+type Todo = {
+    id: string;
     title: string;
-    description: string;
-    dueDate: string;
-    priority: Priority;
-}
-
-interface ActiveUser {
-    id?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-}
-
-const ACTIVE_USER_KEY = 'todo-app-active-user';
-
-const emptyForm: FormState = {
-    title: '',
-    description: '',
-    dueDate: '',
-    priority: 'medium',
+    completed: boolean;
+    priority: 'low' | 'medium' | 'high';
+    date?: string;
 };
 
-function getPriorityRank(priority: Priority) {
-    if (priority === 'high') return 0;
-    if (priority === 'medium') return 1;
-    return 2;
-}
-
-function readActiveUser(): ActiveUser | null {
-    const raw = localStorage.getItem(ACTIVE_USER_KEY);
-
-    if (!raw) {
-        return null;
-    }
-
-    try {
-        return JSON.parse(raw) as ActiveUser;
-    } catch {
-        localStorage.removeItem(ACTIVE_USER_KEY);
-        return null;
-    }
-}
-
-function getTasksStorageKey(user: ActiveUser | null) {
-    const email = user?.email?.trim().toLowerCase();
-
-    if (!email) {
-        return 'todo-app-tasks-guest';
-    }
-
-    return `todo-app-tasks-${email}`;
-}
-
-function normalizeSeedTodos(user: ActiveUser | null): Todo[] {
-    const email = user?.email?.trim().toLowerCase() || '';
-
-    return mockTodos.map((todo, index) => ({
-        ...todo,
-        id: `${email || 'guest'}-seed-${index + 1}`,
-        ownerEmail: email,
-    }));
-}
-
-function loadUserTodos(user: ActiveUser | null): Todo[] {
-    const storageKey = getTasksStorageKey(user);
-    const saved = localStorage.getItem(storageKey);
-
-    if (saved) {
-        try {
-            return JSON.parse(saved) as Todo[];
-        } catch {
-            localStorage.removeItem(storageKey);
-        }
-    }
-
-    const starterTodos = normalizeSeedTodos(user);
-    localStorage.setItem(storageKey, JSON.stringify(starterTodos));
-    return starterTodos;
-}
-
-function saveUserTodos(user: ActiveUser | null, todos: Todo[]) {
-    const storageKey = getTasksStorageKey(user);
-    localStorage.setItem(storageKey, JSON.stringify(todos));
-}
+const initialTodos: Todo[] = [
+    { id: '1', title: 'Przestylować dashboard header', completed: false, priority: 'high', date: '12.04.2026' },
+    { id: '2', title: 'Dopiąć spacing na task page', completed: false, priority: 'medium', date: '13.04.2026' },
+    { id: '3', title: 'Poprawić checkboxy i listę', completed: true, priority: 'low', date: '14.04.2026' },
+];
 
 export default function TasksPage() {
-    const navigate = useNavigate();
-    const activeUser = readActiveUser();
-
-    const [todos, dispatch] = useReducer(
-        todoReducer,
-        [],
-        () => loadUserTodos(activeUser)
-    );
-
-    const [filter, setFilter] = useState<FilterType>('all');
-    const [selectedPriorities, setSelectedPriorities] = useState<Priority[]>([]);
-    const [sortType, setSortType] = useState<SortType>('date-asc');
     const [search, setSearch] = useState('');
-    const [isFormOpen, setIsFormOpen] = useState(false);
-    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-    const [form, setForm] = useState<FormState>(emptyForm);
-    const [formError, setFormError] = useState('');
-
-    useEffect(() => {
-        saveUserTodos(activeUser, todos);
-    }, [todos, activeUser]);
-
-    const activeCount = todos.filter((todo) => !todo.completed).length;
+    const [filter, setFilter] = useState<FilterType>('all');
+    const [showInput, setShowInput] = useState(false);
+    const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
     const filteredTodos = useMemo(() => {
-        const normalizedSearch = search.trim().toLowerCase();
-
-        const filtered = todos.filter((todo) => {
-            const matchesStatus =
+        return todos.filter((todo) => {
+            const matchesFilter =
                 filter === 'all'
                     ? true
                     : filter === 'active'
                         ? !todo.completed
                         : todo.completed;
 
-            const matchesPriority =
-                selectedPriorities.length === 0
-                    ? true
-                    : selectedPriorities.includes(todo.priority);
+            const matchesSearch = todo.title.toLowerCase().includes(search.toLowerCase());
 
-            const matchesSearch =
-                normalizedSearch.length === 0
-                    ? true
-                    : todo.title.toLowerCase().includes(normalizedSearch) ||
-                    todo.description.toLowerCase().includes(normalizedSearch);
-
-            return matchesStatus && matchesPriority && matchesSearch;
+            return matchesFilter && matchesSearch;
         });
+    }, [todos, filter, search]);
 
-        return [...filtered].sort((a, b) => {
-            if (sortType === 'date-asc') {
-                return a.dueDate.localeCompare(b.dueDate);
-            }
-
-            if (sortType === 'date-desc') {
-                return b.dueDate.localeCompare(a.dueDate);
-            }
-
-            if (sortType === 'priority') {
-                return getPriorityRank(a.priority) - getPriorityRank(b.priority);
-            }
-
-            return a.title.localeCompare(b.title, 'pl');
-        });
-    }, [todos, filter, selectedPriorities, sortType, search]);
-
-    const resetForm = () => {
-        setForm(emptyForm);
-        setFormError('');
-    };
-
-    const openAddPanel = () => {
-        resetForm();
-        setIsFormOpen(true);
-    };
-
-    const closePanel = () => {
-        setIsFormOpen(false);
-        setFormError('');
+    const handleAdd = (payload: { title: string; priority: 'low' | 'medium' | 'high' }) => {
+        setTodos((prev) => [
+            {
+                id: crypto.randomUUID(),
+                title: payload.title,
+                completed: false,
+                priority: payload.priority,
+                date: new Date().toLocaleDateString('pl-PL'),
+            },
+            ...prev,
+        ]);
+        setShowInput(false);
     };
 
     const handleToggle = (id: string) => {
-        dispatch({ type: 'TOGGLE', payload: id });
+        setTodos((prev) =>
+            prev.map((todo) =>
+                todo.id === id ? { ...todo, completed: !todo.completed } : todo
+            )
+        );
     };
 
-    const handleOpenDetails = (id: string) => {
-        navigate(`/tasks/${id}`);
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!form.title.trim()) {
-            setFormError('Tytuł zadania jest wymagany.');
-            return;
-        }
-
-        dispatch({
-            type: 'ADD',
-            payload: {
-                title: form.title.trim(),
-                description: form.description.trim(),
-                dueDate: form.dueDate,
-                priority: form.priority,
-                ownerEmail: activeUser?.email?.trim().toLowerCase() || '',
-            },
-        });
-
-        closePanel();
-        resetForm();
-    };
-
-    const handleApplyFilters = (payload: {
-        status: FilterType;
-        priorities: Priority[];
-        sort: SortType;
-    }) => {
-        setFilter(payload.status);
-        setSelectedPriorities(payload.priorities);
-        setSortType(payload.sort);
-        setIsFiltersOpen(false);
-    };
-
-    const handleResetFilters = () => {
-        setFilter('all');
-        setSelectedPriorities([]);
-        setSortType('date-asc');
-        setIsFiltersOpen(false);
+    const handleDelete = (id: string) => {
+        setTodos((prev) => prev.filter((todo) => todo.id !== id));
     };
 
     return (
-        <div className="tasks-page">
-            <section className="tasks-toolbar">
-                <div className="tasks-search">
-                    <Input
-                        placeholder="Szukaj zadań..."
-                        value={search}
-                        onChange={setSearch}
-                    />
-                </div>
+        <DashboardLayout
+            headerTitle="Moje zadania"
+            headerSubtitle="Lista zadań z filtrowaniem i priorytetami"
+            search={search}
+            onSearchChange={setSearch}
+        >
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                <Box>
+                    <Typography
+                        sx={{
+                            fontSize: { xs: 28, md: 34 },
+                            fontWeight: 700,
+                            letterSpacing: '-0.03em',
+                            color: '#181818',
+                            mb: 1,
+                        }}
+                    >
+                        Task page
+                    </Typography>
 
-                <button
-                    type="button"
-                    className="tasks-filters-button"
-                    onClick={() => setIsFiltersOpen(true)}
+                    <Typography sx={{ fontSize: 14, color: '#767676', maxWidth: 620 }}>
+                        Ten sam układ, tylko bardziej projektowy: ciaśniejsze proporcje, prostsze
+                        szarości i lżejsze komponenty.
+                    </Typography>
+                </Box>
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', lg: 'row' },
+                        justifyContent: 'space-between',
+                        alignItems: { xs: 'stretch', lg: 'center' },
+                        gap: 1.5,
+                    }}
                 >
-                    Filtry i sortowanie
-                </button>
-            </section>
+                    <ToggleButtonGroup
+                        exclusive
+                        value={filter}
+                        onChange={(_, value) => value && setFilter(value)}
+                        sx={{
+                            gap: 1,
+                            flexWrap: 'wrap',
+                            '& .MuiToggleButton-root': {
+                                px: 1.75,
+                                py: 0.9,
+                                borderRadius: '999px !important',
+                                border: '1px solid #DDDDDD !important',
+                                bgcolor: '#FAFAFA',
+                                color: '#666',
+                                textTransform: 'none',
+                                fontSize: 13,
+                                fontWeight: 700,
+                            },
+                            '& .Mui-selected': {
+                                bgcolor: '#2E2E2E !important',
+                                color: '#FFF !important',
+                                borderColor: '#2E2E2E !important',
+                            },
+                        }}
+                    >
+                        <ToggleButton value="all">Wszystkie</ToggleButton>
+                        <ToggleButton value="active">Aktywne</ToggleButton>
+                        <ToggleButton value="completed">Ukończone</ToggleButton>
+                    </ToggleButtonGroup>
+                </Box>
 
-            <section className="tasks-heading">
-                <h1>Moje zadania</h1>
-                <p>Lista zadań zalogowanego użytkownika</p>
-                <div className="tasks-counter">
-                    Aktywne: <strong>{activeCount}</strong> / Wszystkie:{' '}
-                    <strong>{todos.length}</strong>
-                </div>
-            </section>
+                {showInput && <TodoInput onAdd={handleAdd} />}
 
-            <section className="tasks-applied-row">
-        <span className="tasks-chip">
-          Status: {filter === 'all' ? 'Wszystkie' : filter === 'active' ? 'Aktywne' : 'Ukończone'}
-        </span>
+                <Box sx={{ maxWidth: 920 }}>
+                    <TodoList
+                        todos={filteredTodos}
+                        onToggle={handleToggle}
+                        onDelete={handleDelete}
+                    />
+                </Box>
+            </Box>
 
-                <span className="tasks-chip">
-          Priorytet:{' '}
-                    {selectedPriorities.length === 0
-                        ? 'Wszystkie'
-                        : selectedPriorities
-                            .map((priority) =>
-                                priority === 'high'
-                                    ? 'Wysoki'
-                                    : priority === 'medium'
-                                        ? 'Średni'
-                                        : 'Niski'
-                            )
-                            .join(', ')}
-        </span>
-
-                <span className="tasks-chip">
-          Sortowanie:{' '}
-                    {sortType === 'date-asc'
-                        ? 'Data rosnąco'
-                        : sortType === 'date-desc'
-                            ? 'Data malejąco'
-                            : sortType === 'priority'
-                                ? 'Priorytet'
-                                : 'Alfabetycznie'}
-        </span>
-            </section>
-
-            <section className="tasks-list">
-                {filteredTodos.length > 0 ? (
-                    filteredTodos.map((todo) => (
-                        <Card
-                            key={todo.id}
-                            todo={todo}
-                            onToggle={handleToggle}
-                            onOpen={handleOpenDetails}
-                        />
-                    ))
-                ) : (
-                    <div className="tasks-empty">
-                        Brak zadań pasujących do wybranego filtru.
-                    </div>
-                )}
-            </section>
-
-            <div className="tasks-fab">
-                <Button
-                    label="+ Dodaj zadanie"
-                    variant="fab"
-                    size="large"
-                    onClick={openAddPanel}
-                />
-            </div>
-
-            <FiltersDrawer
-                isOpen={isFiltersOpen}
-                todos={todos}
-                appliedStatus={filter}
-                appliedPriorities={selectedPriorities}
-                appliedSort={sortType}
-                search={search}
-                onClose={() => setIsFiltersOpen(false)}
-                onApply={handleApplyFilters}
-                onReset={handleResetFilters}
-            />
-
-            {isFormOpen && (
-                <div className="tasks-overlay" onClick={closePanel}>
-                    <div className="tasks-add-layout">
-                        <div className="tasks-add-backdrop desktop-only" />
-                        <aside
-                            className="tasks-side-panel"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <div className="tasks-panel-header">
-                                <div>
-                                    <h2>Dodaj zadanie</h2>
-                                    <p>Uzupełnij pola formularza</p>
-                                </div>
-
-                                <button
-                                    type="button"
-                                    className="tasks-close"
-                                    onClick={closePanel}
-                                    aria-label="Zamknij formularz"
-                                >
-                                    ×
-                                </button>
-                            </div>
-
-                            <form className="tasks-form" onSubmit={handleSubmit}>
-                                <div className="tasks-form-block">
-                                    <label className="tasks-label">Tytuł</label>
-                                    <Input
-                                        placeholder="Np. Przygotować makiety do prezentacji"
-                                        value={form.title}
-                                        onChange={(value) => {
-                                            setForm((prev) => ({ ...prev, title: value }));
-                                            if (formError) setFormError('');
-                                        }}
-                                        state={formError ? 'error' : 'default'}
-                                        helperText={formError}
-                                    />
-                                </div>
-
-                                <div className="tasks-form-block">
-                                    <label className="tasks-label">Opis</label>
-                                    <Input
-                                        placeholder="Dodaj krótki opis zadania..."
-                                        value={form.description}
-                                        onChange={(value) =>
-                                            setForm((prev) => ({ ...prev, description: value }))
-                                        }
-                                        multiline
-                                        rows={7}
-                                    />
-                                </div>
-
-                                <div className="tasks-form-block">
-                                    <label className="tasks-label">Termin</label>
-                                    <div className="tasks-field-with-icon">
-                                        <Input
-                                            type="date"
-                                            value={form.dueDate}
-                                            onChange={(value) =>
-                                                setForm((prev) => ({ ...prev, dueDate: value }))
-                                            }
-                                        />
-                                        <span className="tasks-calendar-icon" aria-hidden="true" />
-                                    </div>
-                                </div>
-
-                                <div className="tasks-form-block">
-                                    <label className="tasks-label">Priorytet</label>
-                                    <div className="tasks-select-wrapper">
-                                        <select
-                                            className="tasks-priority-select"
-                                            value={form.priority}
-                                            onChange={(e) =>
-                                                setForm((prev) => ({
-                                                    ...prev,
-                                                    priority: e.target.value as Priority,
-                                                }))
-                                            }
-                                        >
-                                            <option value="low">Niski</option>
-                                            <option value="medium">Średni</option>
-                                            <option value="high">Wysoki</option>
-                                        </select>
-                                        <span className="tasks-select-arrow" aria-hidden="true" />
-                                    </div>
-                                </div>
-
-                                <div className="tasks-form-actions">
-                                    <Button
-                                        label="Dodaj"
-                                        variant="primary"
-                                        size="large"
-                                        type="submit"
-                                    />
-                                    <Button
-                                        label="Anuluj"
-                                        variant="secondary"
-                                        size="large"
-                                        onClick={closePanel}
-                                    />
-                                </div>
-                            </form>
-                        </aside>
-                    </div>
-                </div>
-            )}
-        </div>
+            <Fab
+                onClick={() => setShowInput((prev) => !prev)}
+                sx={{
+                    position: 'fixed',
+                    right: 32,
+                    bottom: 32,
+                    width: 58,
+                    height: 58,
+                    boxShadow: 'none',
+                    bgcolor: '#2F2F2F',
+                    color: '#FFF',
+                    '&:hover': {
+                        bgcolor: '#242424',
+                        boxShadow: 'none',
+                    },
+                }}
+            >
+                <AddRoundedIcon />
+            </Fab>
+        </DashboardLayout>
     );
 }
