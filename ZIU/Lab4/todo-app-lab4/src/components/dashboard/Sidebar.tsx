@@ -95,10 +95,14 @@ export default function Sidebar() {
                                 <Icon />
                             </ListItemIcon>
                             <ListItemText
-                                primary={item.label}
-                                primaryTypographyProps={{
-                                    sx: { fontSize: 15, fontWeight: 'inherit' },
-                                }}
+                                primary={
+                                    <Typography
+                                        component="span"
+                                        sx={{ fontSize: 15, fontWeight: 'inherit' }}
+                                    >
+                                        {item.label}
+                                    </Typography>
+                                }
                             />
                         </ListItemButton>
                     );
