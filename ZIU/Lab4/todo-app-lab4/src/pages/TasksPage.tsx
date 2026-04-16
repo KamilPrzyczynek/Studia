@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 import TodoInput from '../components/TodoInput';
 import TodoList from '../components/TodoList';
@@ -40,65 +40,49 @@ export default function TasksPage() {
         dispatch({ type: 'DELETE', payload: id });
     };
 
+    const filteredTodos = useMemo(() => {
+        return todos.filter((todo) => {
+            if (filter === 'active') {
+                return !todo.completed;
+            }
+
+            if (filter === 'completed') {
+                return todo.completed;
+            }
+
+            return true;
+        });
+    }, [todos, filter]);
+
     const completedCount = todos.filter((todo) => todo.completed).length;
     const activeCount = todos.length - completedCount;
 
     return (
-        <Box
-            sx={{
-                p: { xs: 2, sm: 4 },
-                backgroundColor: '#FFFFFF',
-                minHeight: '100%',
-            }}
-        >
-            <Paper
-                elevation={0}
-                sx={{
-                    p: { xs: 2, sm: 3 },
-                    borderRadius: '16px',
-                    border: '1px solid #DADADA',
-                    backgroundColor: '#FAFAFA',
-                }}
-            >
-                <Box sx={{ mb: 3 }}>
-                    <Typography
-                        component="h1"
-                        sx={{
-                            fontSize: 28,
-                            fontWeight: 700,
-                            color: '#333333',
-                            mb: 1,
-                        }}
-                    >
+        <Box className="tasks-page">
+            <Paper elevation={0} className="tasks-card">
+                <Box className="tasks-header">
+                    <Typography component="h1" className="tasks-title">
                         Moje zadania
                     </Typography>
 
-                    <Typography
-                        component="p"
-                        sx={{
-                            fontSize: 14,
-                            color: '#666666',
-                            lineHeight: 1.6,
-                        }}
-                    >
+                    <Typography component="p" className="tasks-subtitle">
                         Wszystkie: <strong>{todos.length}</strong> | Aktywne:{' '}
                         <strong>{activeCount}</strong> | Ukończone:{' '}
                         <strong>{completedCount}</strong>
                     </Typography>
                 </Box>
 
-                <TodoInput onAdd={handleAdd} />
-
-                <Box sx={{ mb: 3 }}>
-                    <FilterBar
-                        activeFilter={filter}
-                        onFilterChange={setFilter}
-                    />
+                <Box className="tasks-add">
+                    <TodoInput onAdd={handleAdd} />
                 </Box>
 
+                <FilterBar
+                    activeFilter={filter}
+                    onFilterChange={setFilter}
+                />
+
                 <TodoList
-                    todos={todos}
-                    filter={filter}
+                    todos={filteredTodos}
                     onToggle={handleToggle}
                     onDelete={handleDelete}
                 />

@@ -12,6 +12,7 @@ export function FilterBar({
     return (
         <div className="filter-bar">
             <button
+                type="button"
                 className={`button ${activeFilter === 'all' ? 'active' : ''}`}
                 onClick={() => onFilterChange('all')}
             >
@@ -19,6 +20,7 @@ export function FilterBar({
             </button>
 
             <button
+                type="button"
                 className={`button ${activeFilter === 'active' ? 'active' : ''}`}
                 onClick={() => onFilterChange('active')}
             >
@@ -26,6 +28,7 @@ export function FilterBar({
             </button>
 
             <button
+                type="button"
                 className={`button ${activeFilter === 'completed' ? 'active' : ''}`}
                 onClick={() => onFilterChange('completed')}
             >
