@@ -30,12 +30,12 @@ Repozytorium zawiera materiały z drugiego etapu kursu, skupiającego się na mo
 
 ## Wykorzystane technologie
 * **MATLAB Live Editor (`.mlx`)**: Interaktywne skrypty łączące kod wykonawczy z opisem matematycznym i generowanymi automatycznie wykresami.
-* [cite_start]**MathML**: Wykorzystanie zapisu równań matematycznych wewnątrz dokumentacji skryptów[cite: 37, 53].
-* [cite_start]**Arkusz Kalkulacyjny**: Weryfikacja poprawności obliczeń numerycznych przed ich implementacją w MATLAB[cite: 27, 31].
+* **MathML**: Wykorzystanie zapisu równań matematycznych wewnątrz dokumentacji skryptów.
+* **Arkusz Kalkulacyjny**: Weryfikacja poprawności obliczeń numerycznych przed ich implementacją w MATLAB.
 
 ## Instrukcja
 1. Aby uruchomić analizy statystyczne, otwórz plik `liczebnosc4.mlx` w środowisku MATLAB.
-2. [cite_start]Skrypt zawiera wbudowane sekcje `output`, które wizualizują wyniki analizy struktury danych bezpośrednio pod blokami kodu[cite: 38].
+2. Skrypt zawiera wbudowane sekcje `output`, które wizualizują wyniki analizy struktury danych bezpośrednio pod blokami kodu.
 3. Dane pomocnicze do zadań z rozdziału 6 znajdują się w arkuszu `stat2.ods`.
 
 ---

@@ -9,12 +9,12 @@ Repozytorium zawiera materiały dotyczące rozkładu Chi-kwadrat ($\chi^2$) oraz
 * **Pliki**: `chi_kwadrat8fin.mlx`, `Gauss_standaryzowany.mlx` (materiał porównawczy).
 * **Zakres**:
     * **Charakterystyka rozkładu**: Badanie wpływu liczby stopni swobody ($df$) na kształt funkcji gęstości prawdopodobieństwa.
-    * [cite_start]**Wartości krytyczne**: Wyznaczanie wartości krytycznych rozkładu dla zadanych poziomów istotności $\alpha$ przy użyciu funkcji `chi2inv`[cite: 105].
+    * **Wartości krytyczne**: Wyznaczanie wartości krytycznych rozkładu dla zadanych poziomów istotności $\alpha$ przy użyciu funkcji `chi2inv`.
     * **Test Niezależności**: Badanie związku między dwiema zmiennymi jakościowymi (kategorycznymi) za pomocą statystyki $\chi^2$.
     * **Test Zgodności**: Weryfikacja, czy zebrane dane empiryczne pochodzą z założonego rozkładu teoretycznego (np. normalnego).
 
 ## Wykorzystane technologie
-* [cite_start]**MATLAB Live Editor (`.mlx`)**: Interaktywne skrypty wykorzystane do automatyzacji obliczeń statystyki testowej oraz generowania obszarów krytycznych na wykresach[cite: 105].
+* **MATLAB Live Editor (`.mlx`)**: Interaktywne skrypty wykorzystane do automatyzacji obliczeń statystyki testowej oraz generowania obszarów krytycznych na wykresach.
 * **Wizualizacja**: Generowanie wykresów rozkładu $\chi^2$ dla różnych stopni swobody w celu zobrazowania asymetrii rozkładu.
 
 ## Kluczowe zagadnienia teoretyczne
@@ -25,7 +25,7 @@ Repozytorium zawiera materiały dotyczące rozkładu Chi-kwadrat ($\chi^2$) oraz
 ## Instrukcja
 1. Otwórz plik `chi_kwadrat8fin.mlx` w programie MATLAB.
 2. Skrypt zawiera gotowe bloki kodu do obliczania wartości $p$ (p-value) oraz wyznaczania obszarów odrzuceń dla hipotezy zerowej $H_0$.
-3. [cite_start]Do wizualizacji rozkładu normalnego standaryzowanego jako punktu odniesienia, wykorzystaj pomocniczo skrypt `Gauss_standaryzowany.mlx`[cite: 119].
+3. Do wizualizacji rozkładu normalnego standaryzowanego jako punktu odniesienia, wykorzystaj pomocniczo skrypt `Gauss_standaryzowany.mlx`.
 
 ---
 *Materiały archiwalne - Semestr 1*
