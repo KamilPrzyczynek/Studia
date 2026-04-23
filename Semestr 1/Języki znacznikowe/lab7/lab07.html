@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="opis">
+    <meta name="keywords" content="Slowo kluczowe 1, slowo kluczowe 2">
+    <meta name="author" content="Kamil Przyczynek">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- -->
+    <title>Tytul podstrony</title>
+</head>
+<body>
+    <img src="https://tgadek.bitbucket.io/images/feather.svg" alt="logo">
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porta, tortor sed tristique porttitor, velit nulla dictum metus, sit amet bibendum purus nulla quis dolor. Vestibulum interdum mattis turpis, vulputate blandit dolor ullamcorper ac. Fusce dui justo, luctus et feugiat quis, mollis at augue. Nam ut congue diam. Praesent finibus lorem quam. Curabitur eget viverra leo. Aenean luctus efficitur tellus vel condimentum. Aenean id ultricies nibh, ut feugiat lectus. Sed vulputate dapibus turpis non suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum purus in lobortis feugiat. Morbi lobortis tortor sed velit hendrerit, at facilisis orci pretium. Etiam sed iaculis enim, finibus vestibulum enim.</p>
+    
+
+<p>Etiam justo mi, accumsan at dui non, sollicitudin molestie dolor. In dapibus nec quam sit amet pulvinar. Quisque fermentum nec turpis ac fermentum. Vivamus elementum mi a velit faucibus, in fringilla sapien vehicula. Vivamus tellus nibh, placerat nec rutrum ac, accumsan vel metus. In accumsan dolor sit amet augue congue venenatis. Etiam et tortor faucibus, pretium metus ut, molestie lacus. Vestibulum pharetra tellus porta odio ultricies ultrices. Nunc nunc ipsum, rhoncus at luctus quis, consequat eget tortor. Vivamus ac cursus lectus.</p>
+<h1>Naglowek 1 stopnia </h1>
+<h2>Naglowek 2 stopnia </h2>
+<h3>Naglowek 3 stopnia </h3>
+<h4>Naglowek 4 stopnia </h4>
+<h5>Naglowek 5 stopnia </h5>
+<h6>Naglowek 6 stopnia </h6>
+
+
+<h1>Akapit (paragraph)</h1>
+<p>to jest pierwszy akapit</p>
+<p>to jest drugi akapit </p>
+<h1>Komentarze  nie beda wyswietlane </h1>
+<!-- Tego przegladarka nie wyswietli -->
+<h1>przelamanie lini</h1>
+<p>Siema jestem <br> kamil</p>
+<!-- tak sie nie robi to jest blad-->
+<br><br><br>
+
+
+<h1>hiperlacza</h1>
+<a href="http://www.google.pl" >Przejdz do googla</a>
+<p>
+<a href="http://www.google.pl" target="_blank">W nowej karcie</a>
+</p>
+<p>odnosnik do mojej strony wwww 
+    <a href="podstrona.html">przejdz do mojej podstrony</a>
+</p>
+<p>odnosnik do mojej strony wwww  2
+    <a href="pages/podstrona2.html">przejdz do mojej podstrony  2</a>
+</p>
+
+<h1>Pozioma linia</h1>
+
+<hr>
+
+<h1>Ustawianie obrazka</h1>
+
+<img src="https://i.ytimg.com/vi/ggkWSCh_Fx0/maxresdefault.jpg" alt="logo" width="150px" height="150px"> 
+
+<img src="./images.png" alt="obrazek z folderu" width="150px" height="150px">
+
+<h1>Lista nienumerowana</h1>
+<!-- type="disch | circle | square "-->
+<ul type="square">
+    <li>red</li>
+    <li>blue</li>
+    <li>black</li>
+</ul>
+
+<h1>lista numerowana</h1>
+<!-- type="1|a|A|i|I"-->
+<ol type="a">
+<li>yellow</li>
+<li>red</li>
+<li>green</li>
+</ol>
+<h1>listy mix znacznikow</h1>
+
+<ol>
+    <li>mers
+        <ul>
+            <li>888 zognow</li>
+        </ul>
+    </li>
+    <li>
+        covid
+<ul>
+    <li>888 zognow</li>
+</ul>
+    </li>
+</ol>
+<h1>tabela</h1>
+<table border="1">
+    <tr>
+        <th>Naglowek 1</th><th>Naglowek 2</th><th>Naglowek 3</th>
+    </tr>
+    <tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+</tr>
+</table>
+<h1>laczenie komurek w wierszy</h1>
+<table border="1">
+    <tr>
+        <th>Naglowek 1</th><th>Naglowek 2</th><th>Naglowek 3</th>
+    </tr>
+    <tr>
+<td>1</td>
+<td colspan="2">2 + 3 </td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+</tr>
+</table>
+
+<h1>laczenie wierszy</h1>
+
+<table border="1">
+    <tr>
+        <th>Naglowek 1</th><th>Naglowek 2</th><th>Naglowek 3</th>
+    </tr>
+    <tr>
+<td>1</td>
+<td>2</td>
+<td rowspan="2">3+6</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+
+</tr>
+
+</table>
+<h1>span</h1>
+Polowanie na <span>czerwony</span> Pazdiernik
+
+<h1>div</h1>
+Polowanie na <div>czerwony</div>Pazdiernik
+
+<h1>strong</h1>
+<strong>Java</strong> -obiektowy jezyk programowania.
+
+<h1>emfaza</h1>
+<em>java</em>-obiektowy jezyk programowania.
+<h1>operacje na tekscie</h1>
+<p>tekst domyślny <br>
+<b>tekst pogrubiony</b> <br>
+<i>tekst pochylony</i> <br>
+<u>tekst podkreslony</u> <br>
+<s>tekst przekreslony</s>
+
+</p>
+<h1>blok cytatu</h1>
+<blockquote>
+    <p>
+        cogito ergo sum 
+    </p>
+    kartezjusz
+</blockquote>
+<h1>tekst preformatywny</h1>
+<pre>
+1
+    2
+        3
+    4
+5
+</pre>
+<h1>kod komputerowy</h1>
+<code>
+    int i=0; <br>
+    int j=0;
+</code>
+<h1>formularz</h1>
+<form action="https://www.google.pl" method="get">
+
+</form>
+<h1>pole tekstowe</h1>
+<form action="https://www.google.pl" method="get">
+<label>Wyszukaj w google <input type="text" name="q"></label><br>
+<label>dodatkowy paramter<input type="text" name="parametr"></label><br>
+<input type="submit" value="Send">
+</form>
+<h1>pole dla hasla</h1>
+<form>
+    <label>Podaj haslo <input type="password" name="password" id=""></label>
+</form>
+<h1>pole numeryczne </h1>
+<form>
+    <label>Podaj wiek <input type="number" name="number" id="" min="1" max="123"></label>
+</form>
+
+<h1>pole wielokrotnego wyboru</h1>
+<form action="">
+    <label>zaakceptuj regulamin: <input type="checkbox" name="regulations" id=""></label><br>
+    <label>zaakceptuj polityke prytwatnosci: <input type="checkbox" name="policy" id="" checked></label><br>
+</form>
+<h1>pole typu radio</h1>
+<form action="">
+    plec <br>
+    <label for=""> man<input type="radio" name="gender" id=""> 
+        <label for="">womman<input type="radio" name="gender" id=""> 
+            <label for="">other<input type="radio" name="gender" id=""> 
+    </label>
+</form>
+<h1>pole combo(select)</h1>
+<form action="">
+<label for="salary">
+stawka programisty
+<select name="salary" id="salary">
+    <option value="3100"> junior developer (3100 pln)</option>
+    <option value="15000"> senior developer (15000 pln)</option>
+</select>
+</label>
+</form>
+<h1>pole wieloliniowe</h1>
+<form action="">
+    <label for="comment">Komentarz:</label>
+    <textarea name="" id="comment" cols="10" rows="5"></textarea>
+</form>
+<h1>Przyciski na formularz</h1>
+<form action="">
+    <input type="text" name="example" id=""><br>
+
+    <input type="button" value="kliknij buttion">
+    <input type="reset" value="reset">
+    <input type="submit" value="wyslij">
+</form>
+<h1>button / Przycisk</h1>
+<button>to jest Przyciski</button>
+
+
+</body>
+</html>
