@@ -2,7 +2,7 @@
 
 Kompletny projekt interaktywnego kalkulatora naukowego stworzony w środowisku MATLAB przy użyciu narzędzia **GUIDE** (Graphical User Interface Development Environment).
 
-## 🚀 Funkcje projektu
+##  Funkcje projektu
 
 Kalkulator oferuje szeroki zakres operacji inżynierskich i programistycznych:
 
@@ -24,7 +24,7 @@ Kalkulator posiada wbudowane funkcje dla programistów:
 * **BIN 2 DEC**: Konwersja liczb binarnych na dziesiętne.
 * *Automatyczna blokada klawiatury numerycznej przy wyborze trybów konwersji (np. blokada cyfr 2-9 przy trybie binarnym).*
 
-## 🛠 Struktura Techniczna
+##  Struktura Techniczna
 
 Projekt opiera się na mechanizmie **Callbacks** (funkcji zwrotnych), które dynamicznie budują wyrażenie tekstowe wyświetlane w polu `txthasil`.
 
