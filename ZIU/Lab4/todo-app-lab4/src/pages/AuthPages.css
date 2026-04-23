@@ -132,3 +132,152 @@
         width: 100%;
     }
 }
+.multi-step-form {
+    width: 100%;
+}
+
+.register-steps {
+    margin-bottom: 28px;
+}
+
+.register-steps-list {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.register-step-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid #d8d8d8;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #666666;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.register-step-item.is-active {
+    border-color: #333333;
+    background: #333333;
+    color: #ffffff;
+}
+
+.register-step-index {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.08);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.register-step-item.is-active .register-step-index {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.register-step-heading {
+    margin: 0 0 28px;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.category-item-actions {
+    margin-top: 12px;
+}
+
+.auth-actions-left {
+    justify-content: flex-start;
+}
+
+.auth-section-label {
+    display: block;
+    margin-bottom: 14px;
+}
+
+.auth-checkbox-group {
+    display: grid;
+    gap: 14px;
+}
+
+.auth-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #2e2e2e;
+}
+
+.auth-checkbox {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: #333333;
+    flex-shrink: 0;
+}
+
+.auth-field p:not(.auth-error) {
+    margin: 0;
+    color: #555555;
+    line-height: 1.5;
+}
+
+.auth-form {
+    gap: 22px;
+}
+
+.auth-field {
+    gap: 10px;
+}
+
+.auth-actions {
+    margin-top: 6px;
+}
+
+.auth-primary-button,
+.auth-secondary-button {
+    min-width: 180px;
+}
+
+@media (max-width: 640px) {
+    .register-steps-list {
+        gap: 10px;
+    }
+
+    .register-step-item {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .auth-checkbox-row {
+        align-items: flex-start;
+    }
+
+    .auth-primary-button,
+    .auth-secondary-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .auth-actions {
+        flex-direction: column;
+    }
+}
+.register-step-heading:focus {
+    outline: 2px solid #333333;
+    outline-offset: 6px;
+    border-radius: 8px;
+}

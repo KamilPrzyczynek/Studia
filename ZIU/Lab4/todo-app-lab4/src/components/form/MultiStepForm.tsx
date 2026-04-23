@@ -38,7 +38,11 @@ export default function MultiStepForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        headingRef.current?.focus();
+        const frame = requestAnimationFrame(() => {
+            headingRef.current?.focus();
+        });
+
+        return () => cancelAnimationFrame(frame);
     }, [currentStep]);
 
     const currentStepTitle = useMemo(() => stepLabels[currentStep], [currentStep]);
@@ -57,9 +61,7 @@ export default function MultiStepForm() {
     };
 
     const handleFinalSubmit = async (data: Step3Data) => {
-        if (!formData.step1 || !formData.step2) {
-            return;
-        }
+        if (!formData.step1 || !formData.step2) return;
 
         setIsSubmitting(true);
         setEmailServerError(null);
@@ -96,26 +98,27 @@ export default function MultiStepForm() {
     };
 
     return (
-        <div>
-            <nav aria-label="Postęp rejestracji" style={{ marginBottom: '24px' }}>
-                <ol
-                    style={{
-                        margin: 0,
-                        paddingLeft: '24px',
-                        color: 'inherit',
-                    }}
-                >
-                    <li aria-current={currentStep === 1 ? 'step' : undefined}>Krok 1</li>
-                    <li aria-current={currentStep === 2 ? 'step' : undefined}>Krok 2</li>
-                    <li aria-current={currentStep === 3 ? 'step' : undefined}>Krok 3</li>
+        <div className="multi-step-form">
+            <nav aria-label="Postęp formularza" className="register-steps">
+                <ol className="register-steps-list">
+                    {[1, 2, 3].map((step) => {
+                        const isActive = currentStep === step;
+
+                        return (
+                            <li
+                                key={step}
+                                className={`register-step-item ${isActive ? 'is-active' : ''}`}
+                                aria-current={isActive ? 'step' : undefined}
+                            >
+                                <span className="register-step-index">{step}</span>
+                                <span className="register-step-text">Krok {step}</span>
+                            </li>
+                        );
+                    })}
                 </ol>
             </nav>
 
-            <h2
-                ref={headingRef}
-                tabIndex={-1}
-                style={{ marginTop: 0, marginBottom: '24px' }}
-            >
+            <h2 ref={headingRef} tabIndex={-1} className="register-step-heading">
                 {currentStepTitle}
             </h2>
 
@@ -163,15 +166,21 @@ async function registerUser(payload: RegistrationPayload): Promise<void> {
         throw { status: 409 };
     }
 
+    if (payload.email.trim().toLowerCase() === 'error@example.com') {
+        throw { status: 500 };
+    }
+
     const newUser: StoredUser = {
         firstName: payload.firstName,
         email: payload.email,
         password: payload.password,
     };
 
-    const updatedUsers = [...users, newUser];
+    localStorage.setItem(
+        USERS_STORAGE_KEY,
+        JSON.stringify([...users, newUser])
+    );
 
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
     localStorage.setItem(
         ACTIVE_USER_KEY,
         JSON.stringify({

@@ -59,7 +59,7 @@ export function Step2({ defaultValues, onBack, onComplete }: Step2Props) {
                             </p>
                         )}
 
-                        <div style={{ marginTop: '10px' }}>
+                        <div className="category-item-actions">
                             <button
                                 type="button"
                                 className="auth-secondary-button"
@@ -80,7 +80,7 @@ export function Step2({ defaultValues, onBack, onComplete }: Step2Props) {
                 </p>
             )}
 
-            <div className="auth-actions" style={{ justifyContent: 'flex-start' }}>
+            <div className="auth-actions auth-actions-left">
                 <button
                     type="button"
                     className="auth-secondary-button"
@@ -91,22 +91,23 @@ export function Step2({ defaultValues, onBack, onComplete }: Step2Props) {
             </div>
 
             <div className="auth-field">
-                <label style={{ marginBottom: '12px', display: 'block' }}>Powiadomienia</label>
+                <label className="auth-section-label">Powiadomienia</label>
 
-                <div style={{ display: 'grid', gap: '12px' }}>
+                <div className="auth-checkbox-group">
                     <Controller
                         name="notifications.email"
                         control={control}
                         render={({ field }) => (
-                            <label htmlFor="notifications-email" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                            <label htmlFor="notifications-email" className="auth-checkbox-row">
                                 <input
                                     id="notifications-email"
                                     type="checkbox"
+                                    className="auth-checkbox"
                                     aria-label="Powiadomienia e-mail"
                                     checked={field.value}
                                     onChange={(e) => field.onChange(e.target.checked)}
                                 />
-                                Powiadomienia e-mail
+                                <span>Powiadomienia e-mail</span>
                             </label>
                         )}
                     />
@@ -115,14 +116,15 @@ export function Step2({ defaultValues, onBack, onComplete }: Step2Props) {
                         name="notifications.push"
                         control={control}
                         render={({ field }) => (
-                            <label htmlFor="notifications-push" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                            <label htmlFor="notifications-push" className="auth-checkbox-row">
                                 <input
                                     id="notifications-push"
                                     type="checkbox"
+                                    className="auth-checkbox"
                                     checked={field.value}
                                     onChange={(e) => field.onChange(e.target.checked)}
                                 />
-                                Powiadomienia push
+                                <span>Powiadomienia push</span>
                             </label>
                         )}
                     />
@@ -131,14 +133,15 @@ export function Step2({ defaultValues, onBack, onComplete }: Step2Props) {
                         name="newsletter"
                         control={control}
                         render={({ field }) => (
-                            <label htmlFor="newsletter" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                            <label htmlFor="newsletter" className="auth-checkbox-row">
                                 <input
                                     id="newsletter"
                                     type="checkbox"
+                                    className="auth-checkbox"
                                     checked={field.value}
                                     onChange={(e) => field.onChange(e.target.checked)}
                                 />
-                                Chcę otrzymywać newsletter
+                                <span>Chcę otrzymywać newsletter</span>
                             </label>
                         )}
                     />

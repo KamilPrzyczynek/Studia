@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Step1Data, Step2Data, Step3Data } from '../../types/form.types';
@@ -27,6 +28,7 @@ export function Step3({
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors },
     } = useForm<Step3Data>({
         resolver: zodResolver(step3Schema),
@@ -34,6 +36,15 @@ export function Step3({
         reValidateMode: 'onChange',
         defaultValues: defaultStep3Values,
     });
+
+    useEffect(() => {
+        if (serverError) {
+            setError('root.serverError', {
+                type: 'server',
+                message: serverError,
+            });
+        }
+    }, [serverError, setError]);
 
     const categories = step2Data.categories
         .map((item) => item.value.trim())
@@ -71,17 +82,18 @@ export function Step3({
             <div className="auth-field">
                 <label
                     htmlFor="rodoAccepted"
-                    style={{ display: 'flex', gap: '10px', alignItems: 'center' }}
+                    className="auth-checkbox-row"
                 >
                     <input
                         id="rodoAccepted"
                         type="checkbox"
+                        className="auth-checkbox"
                         aria-required="true"
                         aria-invalid={!!errors.rodoAccepted}
                         aria-describedby={errors.rodoAccepted ? 'rodoAccepted-error' : undefined}
                         {...register('rodoAccepted')}
                     />
-                    Akceptuję zgodę RODO *
+                    <span>Akceptuję zgodę RODO *</span>
                 </label>
 
                 {errors.rodoAccepted && (
@@ -91,9 +103,13 @@ export function Step3({
                 )}
             </div>
 
-            {serverError && (
-                <p className="auth-error" role="alert">
-                    {serverError}
+            {errors.root?.serverError?.message && (
+                <p
+                    className="auth-error"
+                    role="alert"
+                    aria-live="assertive"
+                >
+                    {errors.root.serverError.message}
                 </p>
             )}
 
