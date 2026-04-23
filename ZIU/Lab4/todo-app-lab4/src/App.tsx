@@ -20,7 +20,6 @@ export default function App() {
 
     return (
         <div className="app-shell">
-            {/* NOWY NAV */}
             {!hideGlobalHeader && <Nav />}
 
             <main className="page-container">
