@@ -24,7 +24,7 @@ export default function Nav() {
                 <div className="nav__left">
                     <div className="nav__logo">LOGO</div>
 
-                    <nav className="nav__desktop">
+                    <nav className="nav__desktop" aria-label="Nawigacja główna">
                         <NavLink to="/tasks" className="nav__link">
                             Zadania
                         </NavLink>
@@ -39,9 +39,7 @@ export default function Nav() {
 
                 <div className="nav__right">
                     {activeUser && (
-                        <span className="nav__username">
-                            {activeUser.firstName}
-                        </span>
+                        <span className="nav__username">{activeUser.firstName}</span>
                     )}
 
                     <UserAvatar
@@ -53,43 +51,51 @@ export default function Nav() {
                     />
 
                     <button
+                        type="button"
                         className="nav__logout"
                         onClick={handleLogout}
                     >
                         Wyloguj
                     </button>
 
-                    {/* HAMBURGER */}
                     <button
+                        type="button"
                         className="nav__hamburger"
                         onClick={handleToggle}
-                        aria-label="Menu"
+                        aria-label={isOpen ? 'Zamknij menu' : 'Otwórz menu'}
                         aria-expanded={isOpen}
+                        aria-controls="mobile-navigation"
                     >
-                        <span />
-                        <span />
-                        <span />
+                        <span aria-hidden="true" />
+                        <span aria-hidden="true" />
+                        <span aria-hidden="true" />
                     </button>
                 </div>
             </div>
 
-            <ul className={`nav__menu ${isOpen ? 'nav__menu--open' : ''}`}>
-                <li>
-                    <NavLink to="/tasks" onClick={() => setIsOpen(false)}>
-                        Zadania
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/profile" onClick={() => setIsOpen(false)}>
-                        Profil
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/settings" onClick={() => setIsOpen(false)}>
-                        Ustawienia
-                    </NavLink>
-                </li>
-            </ul>
+            <nav
+                id="mobile-navigation"
+                className={`nav__menu ${isOpen ? 'nav__menu--open' : ''}`}
+                aria-label="Nawigacja mobilna"
+            >
+                <ul>
+                    <li>
+                        <NavLink to="/tasks" onClick={() => setIsOpen(false)}>
+                            Zadania
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/profile" onClick={() => setIsOpen(false)}>
+                            Profil
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/settings" onClick={() => setIsOpen(false)}>
+                            Ustawienia
+                        </NavLink>
+                    </li>
+                </ul>
+            </nav>
         </header>
     );
 }

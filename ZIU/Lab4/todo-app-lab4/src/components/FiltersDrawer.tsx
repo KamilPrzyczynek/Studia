@@ -102,14 +102,17 @@ export function FiltersDrawer({
     }
 
     return (
-        <div className="filters-overlay" onClick={onClose}>
+        <div className="filters-overlay" onClick={onClose} role="presentation">
             <aside
                 className="filters-drawer"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="filters-drawer-title"
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="filters-header">
                     <div>
-                        <h2>Filtry i sortowanie</h2>
+                        <h2 id="filters-drawer-title">Filtry i sortowanie</h2>
                         <p>Dopasuj widok listy zadań</p>
                     </div>
 

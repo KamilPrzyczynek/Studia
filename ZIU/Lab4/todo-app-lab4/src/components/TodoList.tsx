@@ -12,11 +12,26 @@ export default function TodoList({
                                      onDelete,
                                  }: TodoListProps) {
     if (todos.length === 0) {
-        return <p className="todo-list-empty">Brak zadań do wyświetlenia.</p>;
+        return (
+            <p
+                className="todo-list-empty"
+                role="status"
+                aria-live="polite"
+            >
+                Brak zadań do wyświetlenia.
+            </p>
+        );
     }
 
     return (
-        <div className="todo-list-shell">
+        <section
+            className="todo-list-shell"
+            aria-labelledby="todo-list-heading"
+        >
+            <h2 id="todo-list-heading" className="visually-hidden">
+                Lista zadań
+            </h2>
+
             <ul className="task-grid">
                 {todos.map((todo) => (
                     <li
@@ -25,11 +40,10 @@ export default function TodoList({
                             todo.completed ? 'task-card--completed' : ''
                         }`}
                     >
-                        {/* THUMBNAIL */}
                         <div className="task-card__thumbnail">
                             <img
                                 src={`https://picsum.photos/seed/${todo.id}/600/400`}
-                                alt="Miniatura zadania"
+                                alt={`Miniatura zadania ${todo.title}`}
                             />
                         </div>
 
@@ -39,9 +53,10 @@ export default function TodoList({
                                     type="checkbox"
                                     checked={todo.completed}
                                     onChange={() => onToggle(todo.id)}
-                                    aria-label={todo.title}
+                                    aria-label={`Oznacz zadanie ${todo.title}`}
                                     className="task-card__checkbox"
                                 />
+
                                 <span
                                     className={`task-card__title ${
                                         todo.completed
@@ -49,8 +64,8 @@ export default function TodoList({
                                             : ''
                                     }`}
                                 >
-                        {todo.title}
-                    </span>
+                  {todo.title}
+                </span>
                             </label>
                         </div>
 
@@ -67,17 +82,21 @@ export default function TodoList({
                         </div>
 
                         <div className="task-card__meta">
-                <span className="task-card__meta-item">
-                    {todo.dueDate ? `Termin: ${todo.dueDate}` : 'Termin: brak'}
-                </span>
+              <span className="task-card__meta-item">
+                {todo.dueDate
+                    ? `Termin: ${todo.dueDate}`
+                    : 'Termin: brak'}
+              </span>
 
-                            <span className={`task-card__priority priority-${todo.priority}`}>
-                    {todo.priority === 'high'
-                        ? 'Wysoki'
-                        : todo.priority === 'medium'
-                            ? 'Średni'
-                            : 'Niski'}
-                </span>
+                            <span
+                                className={`task-card__priority priority-${todo.priority}`}
+                            >
+                {todo.priority === 'high'
+                    ? 'Wysoki'
+                    : todo.priority === 'medium'
+                        ? 'Średni'
+                        : 'Niski'}
+              </span>
                         </div>
 
                         <div className="task-card__actions">
@@ -85,6 +104,7 @@ export default function TodoList({
                                 type="button"
                                 onClick={() => onDelete(todo.id)}
                                 className="task-card__delete-button"
+                                aria-label={`Usuń zadanie ${todo.title}`}
                             >
                                 Usuń
                             </button>
@@ -92,6 +112,6 @@ export default function TodoList({
                     </li>
                 ))}
             </ul>
-        </div>
+        </section>
     );
 }

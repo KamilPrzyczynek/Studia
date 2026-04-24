@@ -246,7 +246,13 @@ export default function SettingsPage() {
                         </button>
 
                         {savedMessage && (
-                            <span className="settings-saved-message">{savedMessage}</span>
+                            <span
+                                className="settings-saved-message"
+                                role="status"
+                                aria-live="polite"
+                            >
+    {savedMessage}
+  </span>
                         )}
                     </div>
                 </article>
@@ -262,7 +268,8 @@ export default function SettingsPage() {
                             type="button"
                             className={`theme-toggle-button ${theme === 'dark' ? 'is-dark' : ''}`}
                             onClick={handleThemeToggle}
-                            aria-label="Przełącz motyw"
+                            aria-label={`Przełącz motyw. Aktualny motyw: ${theme === 'dark' ? 'ciemny' : 'jasny'}`}
+                            aria-pressed={theme === 'dark'}
                         >
                             <span className="theme-toggle-knob" />
                         </button>

@@ -16,7 +16,11 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
                     type="checkbox"
                     checked={todo.completed}
                     onChange={() => onToggle(todo.id)}
+                    aria-label={`Oznacz zadanie ${todo.title} jako ${
+                        todo.completed ? 'nieukończone' : 'ukończone'
+                    }`}
                 />
+
                 <span className={`todo-text ${todo.completed ? 'completed' : ''}`}>
           {todo.title}
         </span>
@@ -26,6 +30,7 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
                 label="Usuń"
                 variant="ghost"
                 size="small"
+                ariaLabel={`Usuń zadanie ${todo.title}`}
                 onClick={() => onDelete(todo.id)}
             />
         </li>

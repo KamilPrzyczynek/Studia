@@ -73,6 +73,8 @@ export default function LoginPage() {
                             placeholder="jan.kowalski@email.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            aria-invalid={!!errorMessage}
+                            aria-describedby={errorMessage ? 'login-error' : undefined}
                         />
                     </div>
 
@@ -84,10 +86,16 @@ export default function LoginPage() {
                             placeholder="••••••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            aria-invalid={!!errorMessage}
+                            aria-describedby={errorMessage ? 'login-error' : undefined}
                         />
                     </div>
 
-                    {errorMessage && <p className="auth-error">{errorMessage}</p>}
+                    {errorMessage && (
+                        <p id="login-error" className="auth-error" role="alert">
+                            {errorMessage}
+                        </p>
+                    )}
 
                     <div className="auth-actions">
                         <button type="submit" className="auth-primary-button">

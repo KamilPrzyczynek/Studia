@@ -20,9 +20,13 @@ export default function App() {
 
     return (
         <div className="app-shell">
+            <a href="#main-content" className="skip-link">
+                Przejdź do treści głównej
+            </a>
+
             {!hideGlobalHeader && <Nav />}
 
-            <main className="page-container">
+            <main id="main-content" tabIndex={-1} className="page-container">
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/login" element={<LoginPage />} />

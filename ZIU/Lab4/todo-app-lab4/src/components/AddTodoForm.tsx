@@ -17,13 +17,24 @@ export function AddTodoForm({ onAdd }: AddTodoFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="add-form">
+        <form
+            onSubmit={handleSubmit}
+            className="add-form"
+            aria-label="Formularz dodawania zadania"
+        >
+            {/* label ukryty wizualnie, ale czytelny dla screen readera */}
+            <label htmlFor="new-task-input" className="visually-hidden">
+                Tytuł nowego zadania
+            </label>
+
             <input
+                id="new-task-input"
                 className="input"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Dodaj nowe zadanie"
             />
+
             <button type="submit" className="button primary">
                 Dodaj
             </button>

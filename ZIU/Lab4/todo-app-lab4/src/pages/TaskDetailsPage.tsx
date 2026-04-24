@@ -29,9 +29,9 @@ export default function TaskDetailsPage() {
 
     if (!todo) {
         return (
-            <section className="details-page">
+            <section className="details-page" aria-labelledby="details-not-found-title">
                 <div className="details-not-found">
-                    <h1>Nie znaleziono zadania</h1>
+                    <h1 id="details-not-found-title">Nie znaleziono zadania</h1>
                     <p>Podane zadanie nie istnieje albo nie zostało jeszcze dodane.</p>
                     <Link to="/tasks" className="details-back-link">
                         Wróć do listy zadań
@@ -51,89 +51,104 @@ export default function TaskDetailsPage() {
     const statusLabel = todo.completed ? 'Ukończone' : 'W toku';
 
     return (
-        <section className="details-page">
-            <div className="details-breadcrumb">
+        <section className="details-page" aria-labelledby="task-details-title">
+            <nav className="details-breadcrumb" aria-label="Ścieżka nawigacji">
                 <Link to="/tasks">Dashboard</Link>
-                <span> / </span>
+                <span aria-hidden="true"> / </span>
                 <Link to="/tasks">Zadania</Link>
-                <span> / </span>
-                <span>Szczegóły</span>
-            </div>
+                <span aria-hidden="true"> / </span>
+                <span aria-current="page">Szczegóły</span>
+            </nav>
 
             <div className="details-grid">
                 <article className="details-main-card">
-                    <div className="details-main-header">
-                        <h1>{todo.title}</h1>
+                    <header className="details-main-header">
+                        <h1 id="task-details-title">{todo.title}</h1>
                         <p>{todo.dueDate}</p>
-                    </div>
+                    </header>
 
-                    <div className="details-section">
-                        <h2>Opis</h2>
+                    <section className="details-section" aria-labelledby="task-description-heading">
+                        <h2 id="task-description-heading">Opis</h2>
                         <p>{todo.description}</p>
-                    </div>
+                    </section>
 
-                    <div className="details-section">
-                        <h2>Komentarze</h2>
+                    <section className="details-section" aria-labelledby="task-comments-heading">
+                        <h2 id="task-comments-heading">Komentarze</h2>
 
                         <div className="details-comments">
                             {mockComments.map((item) => (
-                                <div key={item.id} className="details-comment-card">
-                                    <div className="details-comment-avatar" />
+                                <article key={item.id} className="details-comment-card">
+                                    <div className="details-comment-avatar" aria-hidden="true" />
                                     <div className="details-comment-copy">
                                         <h3>{item.author}</h3>
                                         <p>{item.text}</p>
                                     </div>
-                                </div>
+                                </article>
                             ))}
                         </div>
 
-                        <div className="details-add-comment">
+                        <form
+                            className="details-add-comment"
+                            aria-label="Formularz dodawania komentarza"
+                            onSubmit={(event) => {
+                                event.preventDefault();
+                                setComment('');
+                            }}
+                        >
+                            <label htmlFor="comment-input" className="visually-hidden">
+                                Dodaj komentarz
+                            </label>
                             <input
+                                id="comment-input"
                                 type="text"
                                 placeholder="Dodaj komentarz..."
                                 value={comment}
                                 onChange={(e) => setComment(e.target.value)}
                             />
-                            <button type="button">Dodaj</button>
-                        </div>
-                    </div>
+                            <button type="submit">Dodaj</button>
+                        </form>
+                    </section>
                 </article>
 
-                <aside className="details-meta-card">
-                    <h2>Metadane</h2>
+                <aside className="details-meta-card" aria-labelledby="task-meta-heading">
+                    <h2 id="task-meta-heading">Metadane</h2>
 
-                    <div className="details-meta-block">
-                        <span className="details-meta-label">Termin</span>
-                        <div className="details-meta-value details-meta-box">
-                            {todo.dueDate}
+                    <dl className="details-meta-list">
+                        <div className="details-meta-block">
+                            <dt className="details-meta-label">Termin</dt>
+                            <dd className="details-meta-value details-meta-box">
+                                {todo.dueDate}
+                            </dd>
                         </div>
-                    </div>
 
-                    <div className="details-meta-block">
-                        <span className="details-meta-label">Priorytet</span>
-                        <div className="details-meta-value details-pill">
-                            {priorityLabel}
+                        <div className="details-meta-block">
+                            <dt className="details-meta-label">Priorytet</dt>
+                            <dd className="details-meta-value details-pill">
+                                {priorityLabel}
+                            </dd>
                         </div>
-                    </div>
 
-                    <div className="details-meta-block">
-                        <span className="details-meta-label">Status</span>
-                        <div className="details-meta-value details-pill status-pill">
-                            {statusLabel}
+                        <div className="details-meta-block">
+                            <dt className="details-meta-label">Status</dt>
+                            <dd className="details-meta-value details-pill status-pill">
+                                {statusLabel}
+                            </dd>
                         </div>
-                    </div>
+                    </dl>
 
-                    <div className="details-action-group">
+                    <div className="details-action-group" aria-label="Akcje zadania">
                         <Button
                             label="Edytuj"
                             variant="primary"
                             size="large"
+                            ariaLabel={`Edytuj zadanie ${todo.title}`}
                             onClick={() => navigate('/tasks')}
                         />
                         <Button
                             label="Usuń"
                             variant="secondary"
                             size="large"
+                            ariaLabel={`Usuń zadanie ${todo.title}`}
                             onClick={() => navigate('/tasks')}
                         />
                     </div>

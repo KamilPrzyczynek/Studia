@@ -123,3 +123,17 @@
     border-color: #d9d9d9;
     cursor: not-allowed;
 }
+.btn-fab {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    z-index: 50;
+    min-height: 56px;
+    padding: 0 24px;
+    border-radius: 999px;
+    border: 1px solid var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-button-text);
+    font-weight: 700;
+    cursor: pointer;
+}

@@ -5,15 +5,13 @@ interface FilterBarProps {
     onFilterChange: (filter: FilterType) => void;
 }
 
-export function FilterBar({
-                              activeFilter,
-                              onFilterChange,
-                          }: FilterBarProps) {
+export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
     return (
-        <div className="filter-bar">
+        <nav className="filter-bar" aria-label="Filtry zadań">
             <button
                 type="button"
                 className={`button ${activeFilter === 'all' ? 'active' : ''}`}
+                aria-pressed={activeFilter === 'all'}
                 onClick={() => onFilterChange('all')}
             >
                 Wszystkie
@@ -22,6 +20,7 @@ export function FilterBar({
             <button
                 type="button"
                 className={`button ${activeFilter === 'active' ? 'active' : ''}`}
+                aria-pressed={activeFilter === 'active'}
                 onClick={() => onFilterChange('active')}
             >
                 Aktywne
@@ -30,10 +29,11 @@ export function FilterBar({
             <button
                 type="button"
                 className={`button ${activeFilter === 'completed' ? 'active' : ''}`}
+                aria-pressed={activeFilter === 'completed'}
                 onClick={() => onFilterChange('completed')}
             >
                 Ukończone
             </button>
-        </div>
+        </nav>
     );
 }

@@ -202,7 +202,7 @@ export default function ProfilePage() {
                     </div>
                 </div>
 
-                <div className="profile-divider" />
+                <div className="profile-divider" aria-hidden="true" />
 
                 <section className="profile-section">
                     <h2>Statystyki</h2>
@@ -211,19 +211,19 @@ export default function ProfilePage() {
                         <article className="profile-stat-card">
                             <span className="profile-stat-label">Ukończone zadania</span>
                             <strong className="profile-stat-value">{completedTasksCount}</strong>
-                            <div className="profile-stat-bar" />
+                            <div className="profile-stat-bar" aria-hidden="true" />
                         </article>
 
                         <article className="profile-stat-card">
                             <span className="profile-stat-label">Aktywne zadania</span>
                             <strong className="profile-stat-value">{activeTasksCount}</strong>
-                            <div className="profile-stat-bar" />
+                            <div className="profile-stat-bar" aria-hidden="true" />
                         </article>
 
                         <article className="profile-stat-card">
                             <span className="profile-stat-label">Wszystkie zadania</span>
                             <strong className="profile-stat-value">{allTasksCount}</strong>
-                            <div className="profile-stat-bar" />
+                            <div className="profile-stat-bar" aria-hidden="true" />
                         </article>
                     </div>
                 </section>
@@ -237,7 +237,7 @@ export default function ProfilePage() {
                             className="profile-action-row"
                             onClick={() => navigate('/profile')}
                         >
-                            <div className="profile-action-icon">
+                            <div className="profile-action-icon" aria-hidden="true">
                                 <span className="icon-user-head" />
                                 <span className="icon-user-body" />
                             </div>
@@ -255,7 +255,7 @@ export default function ProfilePage() {
                             className="profile-action-row"
                             onClick={() => navigate('/settings')}
                         >
-                            <div className="profile-action-icon profile-action-icon-settings">
+                            <div className="profile-action-icon profile-action-icon-settings" aria-hidden="true">
                                 <span className="icon-gear-outer" />
                                 <span className="icon-gear-inner" />
                             </div>
@@ -273,7 +273,7 @@ export default function ProfilePage() {
                             className="profile-action-row"
                             onClick={handleLogout}
                         >
-                            <div className="profile-action-icon profile-action-icon-logout">
+                            <div className="profile-action-icon profile-action-icon-logout" aria-hidden="true">
                                 <span className="icon-door" />
                                 <span className="icon-exit-line" />
                                 <span className="icon-exit-arrow" />
@@ -299,7 +299,8 @@ export default function ProfilePage() {
                                 type="button"
                                 className={`profile-theme-toggle ${theme === 'dark' ? 'is-dark' : ''}`}
                                 onClick={handleToggleTheme}
-                                aria-label="Przełącz motyw aplikacji"
+                                aria-label={`Przełącz motyw aplikacji. Aktualny motyw: ${theme === 'dark' ? 'ciemny' : 'jasny'}`}
+                                aria-pressed={theme === 'dark'}
                             >
                 <span className="profile-theme-knob">
                   <span className="profile-theme-knob-dot" />

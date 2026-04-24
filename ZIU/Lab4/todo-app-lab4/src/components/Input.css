@@ -8,43 +8,59 @@
 .input-label {
     font-size: 14px;
     font-weight: 600;
-    color: #555555;
+    color: var(--app-label);
 }
 
 .input-field {
     width: 100%;
     min-height: 48px;
     border-radius: 10px;
-    border: 1px solid #cfcfcf;
-    background: #ffffff;
+    border: 1px solid var(--app-input-border);
+    background: var(--app-input-bg);
     padding: 12px 16px;
     font-size: 14px;
-    color: #333333;
-    transition: 0.2s ease;
+    color: var(--app-text);
+    transition:
+            border-color var(--transition),
+            box-shadow var(--transition),
+            background-color var(--transition),
+            color var(--transition);
     resize: vertical;
 }
 
 .input-field::placeholder {
-    color: #888888;
+    color: var(--app-placeholder);
+}
+
+.input-field:hover:not(:disabled) {
+    border-color: var(--app-input-focus);
 }
 
 .input-field:focus {
-    outline: none;
-    border-color: #999999;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    border-color: var(--app-input-focus);
+}
+
+.input-field:focus-visible {
+    outline: 3px solid var(--app-input-focus);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06);
 }
 
 .state-error .input-field {
-    border-color: #dc2626;
+    border-color: var(--color-error);
+}
+
+.state-error .input-field:focus-visible {
+    outline-color: var(--color-error);
 }
 
 .state-disabled .input-field {
-    background: #f1f1f1;
+    background: var(--app-surface);
     cursor: not-allowed;
     opacity: 0.7;
 }
 
 .helper-text {
     font-size: 12px;
-    color: #dc2626;
+    color: var(--color-error);
 }

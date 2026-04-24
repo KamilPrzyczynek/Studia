@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 import TodoInput from '../components/TodoInput';
 import TodoList from '../components/TodoList';
 import { FilterBar } from '../components/FilterBar';
+import { ModalDialog } from '../components/ModalDialog';
 import { useTodoContext } from '../context/useTodoContext';
 import type { FilterType } from '../types/todo.types';
 import './TasksPage.css';
@@ -12,6 +13,9 @@ export default function TasksPage() {
     const { todos } = state;
 
     const [filter, setFilter] = useState<FilterType>('all');
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+    const addButtonRef = useRef<HTMLButtonElement>(null);
 
     const handleAdd = (title: string) => {
         const trimmedTitle = title.trim();
@@ -30,6 +34,8 @@ export default function TasksPage() {
                 ownerEmail: '',
             },
         });
+
+        setIsAddModalOpen(false);
     };
 
     const handleToggle = (id: string) => {
@@ -70,16 +76,32 @@ export default function TasksPage() {
                         <strong>{activeCount}</strong> | Ukończone:{' '}
                         <strong>{completedCount}</strong>
                     </Typography>
+
+                    <p className="visually-hidden" role="status" aria-live="polite">
+                        Wyświetlono {filteredTodos.length} zadań. Aktywny filtr:{' '}
+                        {filter === 'all'
+                            ? 'wszystkie'
+                            : filter === 'active'
+                                ? 'aktywne'
+                                : 'ukończone'}
+                        .
+                    </p>
                 </Box>
 
                 <Box className="tasks-add">
-                    <TodoInput onAdd={handleAdd} />
+                    <button
+                        ref={addButtonRef}
+                        type="button"
+                        className="btn btn-fab"
+                        onClick={() => setIsAddModalOpen(true)}
+                        aria-haspopup="dialog"
+                        aria-expanded={isAddModalOpen}
+                    >
+                        + Dodaj zadanie
+                    </button>
                 </Box>
 
-                <FilterBar
-                    activeFilter={filter}
-                    onFilterChange={setFilter}
-                />
+                <FilterBar activeFilter={filter} onFilterChange={setFilter} />
 
                 <TodoList
                     todos={filteredTodos}
@@ -87,6 +109,15 @@ export default function TasksPage() {
                     onDelete={handleDelete}
                 />
             </Paper>
+
+            <ModalDialog
+                isOpen={isAddModalOpen}
+                title="Dodaj nowe zadanie"
+                onClose={() => setIsAddModalOpen(false)}
+                triggerRef={addButtonRef}
+            >
+                <TodoInput onAdd={handleAdd} />
+            </ModalDialog>
         </Box>
     );
 }

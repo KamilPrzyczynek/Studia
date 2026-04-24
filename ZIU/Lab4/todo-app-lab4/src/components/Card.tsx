@@ -17,7 +17,16 @@ export function Card({ todo, onToggle, onOpen }: CardProps) {
     return (
         <article
             className={`task-card ${todo.completed ? 'is-completed' : ''}`}
+            role="button"
+            tabIndex={0}
+            aria-label={`Otwórz szczegóły zadania ${todo.title}`}
             onClick={() => onOpen(todo.id)}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onOpen(todo.id);
+                }
+            }}
         >
             <div className="task-card-left">
                 <button

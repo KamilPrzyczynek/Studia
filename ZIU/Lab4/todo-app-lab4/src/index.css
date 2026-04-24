@@ -11,7 +11,7 @@
   --app-divider: #e0e0e0;
   --app-input-bg: #ffffff;
   --app-input-border: #d4d4d4;
-  --app-input-focus: #bcbcbc;
+  --app-input-focus: #333333;
   --app-placeholder: #9a9a9a;
   --app-chip-bg: #f1f1f1;
   --app-chip-text: #555555;
@@ -50,7 +50,7 @@ html[data-app-theme='dark'] {
   --app-divider: #2c2c2c;
   --app-input-bg: #202020;
   --app-input-border: #3b3b3b;
-  --app-input-focus: #5b5b5b;
+  --app-input-focus: #f2f2f2;
   --app-placeholder: #8f8f8f;
   --app-chip-bg: #272727;
   --app-chip-text: #e1e1e1;
@@ -150,9 +150,46 @@ button:focus-visible,
 input:focus-visible,
 a:focus-visible,
 select:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid #111111;
-  outline-offset: 2px;
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--app-input-focus);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: -64px;
+  left: 16px;
+  z-index: 9999;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--color-primary);
+  color: var(--color-button-text);
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transition: top var(--transition);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 16px;
+}
+
+body[data-app-theme='dark'] .skip-link {
+  background: #f2f2f2;
+  color: #111111;
 }
 
 body[data-app-theme='dark'] .app-shell,
@@ -392,7 +429,8 @@ body[data-app-theme='dark'] .auth-primary-button {
   .nav__hamburger,
   .nav__logout,
   .todo-input-form,
-  .task-card__actions {
+  .task-card__actions,
+  .skip-link {
     display: none !important;
   }
 

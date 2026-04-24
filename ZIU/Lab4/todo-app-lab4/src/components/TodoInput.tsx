@@ -37,6 +37,7 @@ export default function TodoInput({ onAdd }: TodoInputProps) {
             <Box sx={{ display: 'flex', gap: 1 }}>
                 <TextField
                     fullWidth
+                    label="Treść zadania"
                     placeholder="Wpisz treść zadania..."
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -44,12 +45,6 @@ export default function TodoInput({ onAdd }: TodoInputProps) {
                         if (e.key === 'Enter') {
                             handleSubmit();
                         }
-                    }}
-                    sx={{
-                        '& .MuiOutlinedInput-root': {
-                            borderRadius: '12px',
-                            backgroundColor: '#FAFAFA',
-                        },
                     }}
                 />
 

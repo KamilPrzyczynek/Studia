@@ -53,7 +53,7 @@ export function Step3({
     return (
         <form className="auth-form" onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="auth-field">
-                <label>Dane osobowe</label>
+                <h3>Dane osobowe</h3>
                 <div style={{ display: 'grid', gap: '8px' }}>
                     <p><strong>Imię:</strong> {step1Data.firstName}</p>
                     <p><strong>Nazwisko:</strong> {step1Data.lastName}</p>
@@ -62,7 +62,7 @@ export function Step3({
             </div>
 
             <div className="auth-field">
-                <label>Preferencje</label>
+                <h3>Preferencje</h3>
                 <div style={{ display: 'grid', gap: '8px' }}>
                     <p><strong>Kategorie:</strong> {categories.length ? categories.join(', ') : 'Brak'}</p>
                     <p>
