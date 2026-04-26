@@ -1,0 +1,32 @@
+body {
+    background-color: aqua;
+    color: black;
+}
+
+#dragon {
+    width: 150px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    display: inline;
+}
+
+form {
+    width: fit-content;
+    margin: 0, auto, 0 auto;
+    padding: 10px;
+}
+
+section.card {
+    width: fit-content
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+}

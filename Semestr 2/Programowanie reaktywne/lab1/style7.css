@@ -1,0 +1,18 @@
+iframe{
+    width: 99%;
+    padding: 5px 5px 5px 5px;
+
+}
+body{
+    background-color: green;
+
+}
+nav{
+    height: 425px;
+    background-color: white;
+    padding: 10px 10px 10px 10px;
+}
+ ul li {
+    display: inline;
+}
+

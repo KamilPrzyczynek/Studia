@@ -1,0 +1,12 @@
+body{
+    background-color: aqua;
+}
+img{
+    width: 160px;
+    height: 160px;
+    float: left;
+
+}
+nav ul li {
+    display: inline;
+}
