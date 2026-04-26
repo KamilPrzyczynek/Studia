@@ -1,0 +1,26 @@
+%6_7
+x = -1:0.01:1;
+y0 = ones(1, length(x));
+y1 = x;
+y2 = 2*x.^2 - 1;
+y3 = 4*x.^3 - 3*x;
+y4 = 8*x.^4 - 8*x.^2 + 1;
+y5 = 16*x.^5 - 20*x.^3 + 5*x;
+y6 = 32*x.^6 - 48*x.^4 + 18*x.^2 - 1;
+y7 = 64*x.^7 - 112*x.^5 + 56*x.^3 - 7*x;
+
+figure;
+hold on;
+plot(x, y0);
+plot(x, y1);
+plot(x, y2);
+plot(x, y3);
+plot(x, y4);
+plot(x, y5);
+plot(x, y6);
+plot(x, y7);
+legend('C0(x)', 'C1(x)', 'C2(x)', 'C3(x)', 'C4(x)', 'C5(x)', 'C6(x)', 'C7(x)');
+xlabel('x');
+ylabel('y');
+title('Wielomiany Czebyszewa');
+grid on;
