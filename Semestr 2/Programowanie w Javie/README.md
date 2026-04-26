@@ -31,7 +31,7 @@ Niniejsze repozytorium to kompleksowy przegląd kompetencji zdobytych podczas ku
 * **Struktury Danych**: Wykorzystanie tablic statycznych oraz list dynamicznych `ArrayList`.
 * **Algorytmy Sortowania**: Użycie `Arrays.sort()` oraz `Collections.sort()` wraz z komparatorami odwracającymi kolejność (`reverseOrder`).
 
-## 🛠 Struktura Projektu (Główne Klasy)
+##  Struktura Projektu (Główne Klasy)
 | Moduł | Klasy Kluczowe | Główne Zadanie |
 | :--- | :--- | :--- |
 | **Matematyka** | `Ulamek`, `RownanieKwadratowe` | Arytmetyka, skracanie ułamków (NWD), pierwiastki. |
