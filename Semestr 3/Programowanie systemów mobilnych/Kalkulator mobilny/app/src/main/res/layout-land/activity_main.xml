@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/display"
+        style="@style/textstyle"
+        android:layout_width="690dp"
+        android:layout_height="132dp"
+        android:text="0"
+        app:layout_constraintBottom_toTopOf="@+id/gridView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridView"
+        android:layout_width="760dp"
+        android:layout_height="269dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display">
+
+        <TableLayout
+            android:layout_width="738dp"
+            android:layout_height="276dp"
+            app:layout_column="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/display"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_row="1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btc_ac"
+                    style="@style/ACportrait"
+                    android:layout_width="155dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="Reset"
+                    android:text="AC" />
+
+                <Button
+                    android:id="@+id/btc_plusminus"
+                    style="@style/plusminusportrait"
+                    android:layout_width="143dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="plusMinus"
+                    android:text="+/-" />
+
+                <Button
+                    android:id="@+id/btc_procent"
+                    style="@style/procentportrait"
+                    android:layout_width="121dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="procent"
+                    android:text="%" />
+
+                <Button
+                    android:id="@+id/btc_dziel"
+                    style="@style/dzielportrait"
+                    android:layout_width="152dp"
+                    android:layout_height="match_parent"
+                    android:onClick="dziel"
+                    android:text="/" />
+
+                <Button
+                    android:id="@+id/btc_log"
+                    style="@style/loglandscape"
+                    android:layout_width="168dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="log"
+                    android:text="log10" />
+            </TableRow>
+
+            <TableRow
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn_7"
+                    style="@style/siedemportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="siedem"
+                    android:text="7" />
+
+                <Button
+                    android:id="@+id/btn_8"
+                    style="@style/osiemportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="osiem"
+                    android:text="8" />
+
+                <Button
+                    android:id="@+id/btn_9"
+                    style="@style/dziewiecportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="dziewiec"
+                    android:text="9" />
+
+                <Button
+                    android:id="@+id/btc_razy"
+                    style="@style/razyportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="razy"
+                    android:text="X" />
+
+                <Button
+                    android:id="@+id/btn_silnia"
+                    style="@style/silnalandscape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="silnia"
+                    android:text="X!" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn_4"
+                    style="@style/czteryportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="cztery"
+                    android:text="4" />
+
+                <Button
+                    android:id="@+id/btn_5"
+                    style="@style/piecportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="piec"
+                    android:text="5" />
+
+                <Button
+                    android:id="@+id/btn_6"
+                    style="@style/szescportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="szesc"
+                    android:text="6" />
+
+                <Button
+                    android:id="@+id/btn_minus"
+                    style="@style/minusportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="minus"
+                    android:text="-" />
+
+                <Button
+                    android:id="@+id/btn_sqrt"
+                    style="@style/potegalandscape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="sqrt"
+                    android:text="SQRT(X)" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btc_1"
+                    style="@style/jedensportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="jeden"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/btc_2"
+                    style="@style/dwaportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="dwa"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/btc_3"
+                    style="@style/trzyportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="trzy"
+                    android:text="3" />
+
+                <Button
+                    android:id="@+id/btc_plus"
+                    style="@style/plusportrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="plus"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/btn_x3"
+                    style="@style/x3landscape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="x3"
+                    android:text="x^3" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btc_0"
+                    style="@style/zeroportrait"
+                    android:layout_width="98dp"
+                    android:layout_height="wrap_content"
+
+                    android:onClick="zero"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/space"
+                    style="@style/spaceportrait"
+                    android:layout_width="98dp"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
+                <Button
+                    android:id="@+id/btc_przecinek"
+                    style="@style/przecinekportrait"
+                    android:layout_width="102dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="przecinek"
+                    android:text="," />
+
+                <Button
+                    android:id="@+id/btn_rowna"
+                    style="@style/rownaortrait"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="rowna"
+                    android:text="=" />
+
+                <Button
+
+                    android:id="@+id/button10"
+                    style="@style/x2landscape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="x2"
+                    android:text="X^2" />
+            </TableRow>
+        </TableLayout>
+    </androidx.gridlayout.widget.GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

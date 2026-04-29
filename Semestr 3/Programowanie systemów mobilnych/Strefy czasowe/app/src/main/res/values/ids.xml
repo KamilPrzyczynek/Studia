@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="time" type="id" />
+    <item name="flag" type="id" />
+    <item name="locationName" type="id" />
+    <item name="tvTimeZone1" type="id" />
+    <item name="tvTimeZone2" type="id" />
+    <item name="tvTimeZone3" type="id" />
+</resources>

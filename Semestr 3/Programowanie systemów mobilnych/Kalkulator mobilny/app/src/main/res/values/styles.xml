@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="buttonstyle" parent="ThemeOverlay.AppCompat">
+
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetTop">0dp</item>
+
+    </style>
+    <style name="textstyle" >
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical|end</item>
+        <item name="android:textSize">50dp</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+    </style>
+
+    <style name="ACportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="plusminusportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="procentportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="dzielportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
+    <style name="siedemportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="osiemportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="dziewiecportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="razyportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
+    <style name="czteryportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="piecportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="szescportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="minusportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
+    <style name="jedensportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="dwaportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="trzyportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="plusportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
+    <style name="zeroportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="spaceportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="przecinekportrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+    <style name="rownaortrait" parent="buttonstyle">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
+    <style name="loglandscape" parent="buttonstyle">
+        <item name="android:backgroundTint">@android:color/holo_green_dark</item>
+    </style>
+    <style name="silnalandscape" parent="buttonstyle">
+        <item name="android:backgroundTint">@android:color/holo_green_dark</item>
+    </style>
+    <style name="potegalandscape" parent="buttonstyle">
+        <item name="android:backgroundTint">@android:color/holo_green_dark</item>
+    </style>
+    <style name="x3landscape" parent="buttonstyle">
+        <item name="android:backgroundTint">@android:color/holo_green_dark</item>
+    </style>
+    <style name="x2landscape" parent="buttonstyle">
+        <item name="android:backgroundTint">@android:color/holo_green_dark</item>
+    </style>
+
+
+
+
+
+</resources>

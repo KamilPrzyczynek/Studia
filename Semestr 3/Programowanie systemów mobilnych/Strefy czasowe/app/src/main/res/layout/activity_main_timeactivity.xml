@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainTimeactivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="374dp"
+        android:layout_height="119dp"
+        android:background="@color/Primary"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/Moblietime"
+            style="@style/Moblietimewielki"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+
+
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="Moblie Time" />
+
+        <TextView
+            android:id="@+id/aktualnyCzas"
+            style="@style/TimeBold"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center|center_horizontal|center_vertical"
+
+            android:text="TextView" />
+    </LinearLayout>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="227dp"
+        android:layout_height="176dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.183">
+
+        <TextView
+            android:id="@+id/time_zone_1"
+            style="@style/TimeBold"
+            android:layout_width="133dp"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_column="0"
+            app:layout_row="1" />
+
+        <TextView
+            android:id="@+id/time_zone_2"
+            style="@style/TimeBold"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_column="0"
+            app:layout_row="3" />
+
+        <TextView
+            android:id="@+id/time_zone_3"
+            style="@style/TimeBold"
+            android:layout_width="134dp"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_column="0"
+            app:layout_row="5" />
+
+        <TextView
+            android:id="@+id/NewYorktext"
+            style="@style/CounteryColor"
+            android:layout_width="113dp"
+            android:layout_height="wrap_content"
+
+            android:gravity="end"
+            android:text="New York"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/Londontextcolor"
+            style="@style/CounteryColor"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="London"
+            app:layout_column="0"
+            app:layout_row="2" />
+
+        <TextView
+            android:id="@+id/TokyotextColor"
+            style="@style/CounteryColor"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:text="Tokyo"
+            android:gravity="end"
+            app:layout_column="0"
+            app:layout_row="4" />
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="45dp"
+            android:layout_height="26dp"
+            app:layout_column="0"
+            app:layout_row="0"
+            app:srcCompat="@drawable/flag_usa" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="45dp"
+            android:layout_height="26dp"
+            app:layout_column="0"
+            app:layout_row="2"
+            app:srcCompat="@drawable/flag_london" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="45dp"
+            android:layout_height="26dp"
+            app:layout_column="0"
+
+            app:layout_row="4"
+            app:srcCompat="@drawable/flag_tokyo" />
+
+    </androidx.gridlayout.widget.GridLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
