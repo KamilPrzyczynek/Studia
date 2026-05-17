@@ -4,44 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02fd4014-e806-45ad-af99-652e29ff7d6a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/movie-browser/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/eslint.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/public/favicon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/public/icons.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/public/mockServiceWorker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/App.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/api/tmdbClient.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/assets/hero.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/assets/react.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/assets/vite.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/components/EmptyState.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/components/ErrorBanner.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/components/InfiniteMovieList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/components/MovieCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/components/MovieModal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/components/SkeletonCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/constants/queryKeys.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/hooks/useDebounce.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/hooks/useFavorites.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/hooks/useFetchMovies.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/hooks/useInfiniteMovies.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/hooks/useMovieDetails.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/main.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/mocks/browser.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/src/mocks/handlers.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/tsconfig.app.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/tsconfig.node.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movie-browser/vite.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$" beforeDir="false" />
-    </list>
+    <list default="true" id="02fd4014-e806-45ad-af99-652e29ff7d6a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,29 +13,29 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="3DXemJhm6jQCe0OeZhkkkL73XbL" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Users\\kamil\\Documents\\GitHub\\Studia\\Semestr 1 Stopień II\\Zaawansowany interfejs\\Lab9\\movie-browser\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\kamil\\Documents\\GitHub\\Studia\\Semestr 1 Stopień II\\Zaawansowany interfejs\\Lab9\\movie-browser\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -88,7 +51,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778433000214</updated>
-      <workItem from="1778433001525" duration="2268000" />
+      <workItem from="1778433001525" duration="2946000" />
+      <workItem from="1779019694082" duration="3000" />
     </task>
     <servers />
   </component>
